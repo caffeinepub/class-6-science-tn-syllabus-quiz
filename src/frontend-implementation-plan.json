@@ -1,0 +1,23 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Publish released build on sciquiztn-knowledgebyte custom domain (frontend-only)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Configure the released frontend build for live deployment on the exact custom domain sciquiztn-knowledgebyte without introducing any functional or UI changes.",
+      "acceptanceCriteria": [
+        "The live deployment uses the exact domain \"sciquiztn-knowledgebyte\" (letters/numbers/hyphens only).",
+        "The app loads successfully from the live URL without deployment errors.",
+        "No code changes are introduced as part of the publish-only action."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/.well-known/ic-domains",
+          "operation": "create",
+          "description": "Add the domain verification/static configuration file required for custom domain hosting so the deployed frontend can be served on the exact domain \"sciquiztn-knowledgebyte\". Keep contents limited to the required domain string and avoid any functional/UI code changes."
+        }
+      ]
+    }
+  ]
+}

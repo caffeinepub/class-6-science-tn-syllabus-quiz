@@ -1,2 +1,3 @@
-# class-6-science-tn-syllabus-quiz
-Exported from Caffeine project: Publish app live on sciquiztn-knowledgebyte domain
+## 
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

@@ -1,0 +1,37 @@
+{
+  "kind": "build_request",
+  "title": "Publish app live on sciquiztn-knowledgebyte domain",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Publish the current released build live using the custom domain \"sciquiztn-knowledgebyte\" with no functional or UI changes as part of this request.",
+      "target": "unknown",
+      "source": {
+        "messageIds": [
+          "msg-user-go-live"
+        ],
+        "quotes": [
+          "Go live"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The live deployment uses the exact domain \"sciquiztn-knowledgebyte\" (letters/numbers/hyphens only).",
+        "The app loads successfully from the live URL without deployment errors.",
+        "No code changes are introduced as part of the publish-only action."
+      ]
+    }
+  ],
+  "constraints": [
+    "Use English for any user-facing text.",
+    "Use the exact domain string: sciquiztn-knowledgebyte."
+  ],
+  "nonGoals": [
+    "Adding or modifying quiz features, UI, backend APIs, or data files.",
+    "Changing authentication, question sets, styling, or assets."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

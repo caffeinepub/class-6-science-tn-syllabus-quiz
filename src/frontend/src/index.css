@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --radius: 1rem;
+        
+        /* Modern gamified pastel palette */
+        --background: 0.98 0.01 260;
+        --foreground: 0.15 0.03 260;
+        
+        --card: 1 0 0;
+        --card-foreground: 0.15 0.03 260;
+        
+        --popover: 1 0 0;
+        --popover-foreground: 0.15 0.03 260;
+        
+        /* Primary: Vibrant purple-blue for gamified feel */
+        --primary: 0.65 0.22 260;
+        --primary-foreground: 0.99 0 0;
+        
+        /* Secondary: Soft coral-pink */
+        --secondary: 0.94 0.02 20;
+        --secondary-foreground: 0.25 0.03 260;
+        
+        --muted: 0.96 0.01 260;
+        --muted-foreground: 0.50 0.02 260;
+        
+        /* Accent: Playful cyan */
+        --accent: 0.90 0.03 200;
+        --accent-foreground: 0.25 0.03 260;
+        
+        --destructive: 0.55 0.22 25;
+        --destructive-foreground: 0.99 0 0;
+        
+        --border: 0.92 0.01 260;
+        --input: 0.92 0.01 260;
+        --ring: 0.65 0.22 260;
+        
+        /* Success: Fresh green for correct answers */
+        --success: 0.68 0.20 150;
+        --success-foreground: 0.99 0 0;
+        
+        /* Error: Warm red for incorrect answers */
+        --error: 0.58 0.22 25;
+        --error-foreground: 0.99 0 0;
+        
+        --chart-1: 0.65 0.22 260;
+        --chart-2: 0.70 0.18 180;
+        --chart-3: 0.75 0.16 300;
+        --chart-4: 0.68 0.20 150;
+        --chart-5: 0.80 0.14 50;
+    }
+
+    .dark {
+        --background: 0.12 0.03 260;
+        --foreground: 0.97 0.01 260;
+        
+        --card: 0.16 0.03 260;
+        --card-foreground: 0.97 0.01 260;
+        
+        --popover: 0.14 0.03 260;
+        --popover-foreground: 0.97 0.01 260;
+        
+        /* Primary: Bright purple-blue for dark mode */
+        --primary: 0.75 0.24 260;
+        --primary-foreground: 0.12 0.03 260;
+        
+        --secondary: 0.22 0.04 260;
+        --secondary-foreground: 0.97 0.01 260;
+        
+        --muted: 0.24 0.04 260;
+        --muted-foreground: 0.70 0.02 260;
+        
+        --accent: 0.30 0.06 200;
+        --accent-foreground: 0.97 0.01 260;
+        
+        --destructive: 0.60 0.22 25;
+        --destructive-foreground: 0.12 0.03 260;
+        
+        --border: 0.24 0.04 260;
+        --input: 0.24 0.04 260;
+        --ring: 0.75 0.24 260;
+        
+        --success: 0.72 0.22 150;
+        --success-foreground: 0.12 0.03 260;
+        
+        --error: 0.62 0.22 25;
+        --error-foreground: 0.12 0.03 260;
+        
+        --chart-1: 0.70 0.24 260;
+        --chart-2: 0.75 0.20 180;
+        --chart-3: 0.80 0.18 300;
+        --chart-4: 0.72 0.22 150;
+        --chart-5: 0.85 0.16 50;
+    }
+
+    * {
+        @apply border-border;
+    }
+    
+    body {
+        @apply bg-background text-foreground;
+        font-feature-settings: "rlig" 1, "calt" 1;
+        font-size: 16px;
+        line-height: 1.65;
+    }
+}
+
+@layer components {
+    .container {
+        @apply max-w-7xl mx-auto;
+    }
+
+    /* Gamified badge styles */
+    .badge-reward {
+        @apply inline-flex items-center gap-2 px-4 py-2 rounded-full font-bold shadow-lg;
+        background: linear-gradient(135deg, oklch(var(--primary) / 0.2), oklch(var(--accent) / 0.2));
+        border: 2px solid oklch(var(--primary) / 0.3);
+    }
+
+    /* Playful card hover effects */
+    .card-interactive {
+        @apply transition-all duration-300 hover:shadow-2xl hover:scale-[1.02];
+    }
+
+    /* Quiz option states with enhanced gamified styling */
+    .option-correct {
+        @apply border-success bg-success/10 font-semibold;
+        border-color: oklch(var(--success));
+        background-color: oklch(var(--success) / 0.1);
+    }
+
+    .option-incorrect {
+        @apply border-error bg-error/10;
+        border-color: oklch(var(--error));
+        background-color: oklch(var(--error) / 0.1);
+    }
+
+    .option-disabled {
+        @apply opacity-50 cursor-not-allowed;
+    }
+
+    /* Gradient backgrounds for gamified feel */
+    .gradient-primary {
+        background: linear-gradient(135deg, oklch(var(--primary) / 0.1), oklch(var(--accent) / 0.05));
+    }
+
+    .gradient-success {
+        background: linear-gradient(135deg, oklch(var(--success) / 0.1), oklch(var(--success) / 0.05));
+    }
+
+    .gradient-error {
+        background: linear-gradient(135deg, oklch(var(--error) / 0.1), oklch(var(--error) / 0.05));
+    }
+}
