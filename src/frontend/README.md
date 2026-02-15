@@ -14,6 +14,18 @@ A beautiful, interactive quiz application for Class 6, Class 7, Class 8, Class 9
 - 🎵 Background music with volume controls
 - 📱 Fully responsive design
 
+## Deployment
+
+### Backend Canister Configuration
+
+The frontend connects to the backend canister using configuration in `frontend/src/config.ts`. After deploying to a new canister ID:
+
+1. Run `dfx generate backend` to update the canister ID references
+2. The build process will automatically populate the canister ID from the dfx-generated files
+3. The frontend reads the backend canister ID at runtime from environment variables or the generated canister configuration
+
+**Important**: Always run `dfx generate backend` after deploying or redeploying the backend canister to ensure the frontend can connect properly.
+
 ## Quiz Levels
 
 The application supports five quiz levels:

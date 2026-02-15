@@ -1,46 +1,29 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Science quiz web app deployed on Internet Computer (icp0.io). User wants to fix \"canister ID not resolved\" accessibility issues (notably on Airtel) by connecting a custom domain and also wants preparation guidance for publishing the app on Google Play Store (via TWA/Bubblewrap).",
+  "summary": "Deploy the app on Internet Computer with a live canister URL and optional custom domain; user requested redeploy using a different canister ID and to retry deployment after an internal build error.",
   "architectural_notes": [
-    "Mitigate icp0.io DNS/canister-resolution issues by mapping the app to a custom domain (e.g., for Airtel users).",
-    "Play Store distribution planned via Android Trusted Web Activity (TWA) wrapper around the existing web app."
+    "Deployment target: Internet Computer canister (icp0.io URL).",
+    "Custom domain sciquiztn-knowledgebyte.in planned but pending DNS verification."
   ],
   "known_issues": [
-    "Some users (e.g., Airtel network) may fail to resolve/open icp0.io canister URLs (\"canister ID not resolved\" / DNS resolution issues)."
+    "Build/deploy process encountered an internal LLM error during attempt to use another canister ID."
   ],
   "isFixRequest": true,
-  "imageRequirements": "## Required Images\n- Square app icon illustration: a clean, modern science quiz emblem with simple lab/atom motifs, high contrast, no text (playstore-icon.dim_512x512.png)\n- Wide feature graphic illustration: abstract science-themed banner with subtle icons (molecule, flask, lightning) and clean gradients, no text (playstore-feature-graphic.dim_1024x500.png)\n- Screenshot-style promo image: a realistic app UI mock of a quiz question screen on a generic phone frame, science-themed background accents, no store badges (playstore-screenshot-1.dim_1080x1920.png)\n- Screenshot-style promo image: a realistic app UI mock of results screen on a generic phone frame, celebratory science-themed accents, no text overlays (playstore-screenshot-2.dim_1080x1920.png)",
   "existing_features": [
     {
-      "id": "feature-update-the-internet-computer-custom-domain-configuration-to-use-the-full-domain-sciquiztn-knowledgebyte-in-so-the-app-is-accessible-via-that-domain-instead-of-the-icp0-io-canister-subdomain-to-mitigate-canister-id-not-resolved-dns-issues-on-some-isps",
-      "title": "Update the Internet Computer custom-domain configuration to use the full domain `sciquiztn-knowledgebyte.in` so the app is accessible via that domain instead of the `icp0.io` canister subdomain (to mitigate “canister ID not resolved” / DNS issues on some ISPs).",
+      "id": "feature-provision-and-deploy-the-app-to-a-new-internet-computer-canister-id-i-e-do-not-reuse-the-previously-deployed-canister-so-the-live-site-is-served-from-the-new-canister",
+      "title": "Provision and deploy the app to a new Internet Computer canister ID (i.e., do not reuse the previously deployed canister), so the live site is served from the new canister.",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-update-frontend-custom-domain-deployment-md-to-provide-clear-english-step-by-step-instructions-for-connecting-and-verifying-the-custom-domain-sciquiztn-knowledgebyte-in-including-where-the-domain-value-is-configured-in-the-repo",
-      "title": "Update `frontend/CUSTOM_DOMAIN_DEPLOYMENT.md` to provide clear, English, step-by-step instructions for connecting and verifying the custom domain `sciquiztn-knowledgebyte.in` (including where the domain value is configured in the repo).",
-      "reqIds": [
-        "REQ-2"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-an-english-step-by-step-guide-in-the-frontend-documentation-for-publishing-the-existing-web-app-to-the-google-play-store-using-a-trusted-web-activity-bubblewrap-tailored-to-the-deployed-url-and-including-required-play-console-assets-and-checklist",
-      "title": "Add an English, step-by-step guide in the frontend documentation for publishing the existing web app to the Google Play Store using a Trusted Web Activity (Bubblewrap), tailored to the deployed URL and including required Play Console assets and checklist.",
+      "id": "feature-if-a-custom-domain-is-configured-for-the-project-ensure-the-custom-domain-verification-file-and-deployment-instructions-remain-consistent-with-the-new-canister-deployment-i-e-do-not-break-existing-custom-domain-setup-for-sciquiztn-knowledgebyte-in",
+      "title": "If a custom domain is configured for the project, ensure the custom-domain verification file and deployment instructions remain consistent with the new canister deployment (i.e., do not break existing custom domain setup for `sciquiztn-knowledgebyte.in`).",
       "reqIds": [
         "REQ-3"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-the-required-play-store-twa-static-images-to-frontend-public-assets-generated-and-reference-them-from-the-play-store-twa-publishing-guide",
-      "title": "Add the required Play Store/TWA static images to `frontend/public/assets/generated/` and reference them from the Play Store (TWA) publishing guide.",
-      "reqIds": [
-        "REQ-4"
       ],
       "version": 1
     }
@@ -48,18 +31,26 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Connect and configure custom domain sciquiztn-knowledgebyte.in for the deployed app to avoid icp0.io DNS/canister resolution issues",
+      "summary": "Redeploy using a different Internet Computer canister ID (new canister)",
       "reqIds": [],
-      "status": "in_progress"
+      "status": "pending"
     },
     {
       "id": "AR-2",
-      "summary": "Prepare step-by-step instructions/files to publish the web app to Google Play Store using Trusted Web Activity (Bubblewrap)",
+      "summary": "Retry the build/deploy after the internal LLM/build error",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Update the frontend canister/agent configuration used by `createActorWithConfig` so the UI talks to the newly deployed backend canister ID after redeploying.",
+      "reqIds": [
+        "REQ-2"
+      ],
       "status": "pending"
     }
   ],
-  "projectName": "Connect custom domain sciquiztn-knowledgebyte.in and add Play Store (TWA) publish guide",
+  "projectName": "sciquiztn-knowledgebyte",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

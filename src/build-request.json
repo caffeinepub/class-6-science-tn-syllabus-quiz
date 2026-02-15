@@ -1,108 +1,80 @@
 {
   "kind": "build_request",
-  "title": "Connect custom domain sciquiztn-knowledgebyte.in and add Play Store (TWA) publish guide",
+  "title": "Retry deployment using a new canister ID and update frontend to target it",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Update the Internet Computer custom-domain configuration to use the full domain `sciquiztn-knowledgebyte.in` so the app is accessible via that domain instead of the `icp0.io` canister subdomain (to mitigate “canister ID not resolved” / DNS issues on some ISPs).",
-      "target": "frontend",
+      "text": "Provision and deploy the app to a new Internet Computer canister ID (i.e., do not reuse the previously deployed canister), so the live site is served from the new canister.",
+      "target": "unknown",
       "source": {
         "messageIds": [
-          "msg-user-1"
+          "msg-1",
+          "msg-2"
         ],
         "quotes": [
-          "sciquiztn-knowledgebyte.in"
+          "Can you use another canister ID?",
+          "Try"
         ]
       },
       "acceptanceCriteria": [
-        "`frontend/public/.well-known/ic-domains` contains `sciquiztn-knowledgebyte.in` (and does not rely on only the bare label without the TLD)",
-        "The custom domain documentation reflects `sciquiztn-knowledgebyte.in` consistently",
-        "After deployment, the app is reachable via `https://sciquiztn-knowledgebyte.in`"
+        "A new canister ID is created/selected for deployment (different from the previously used one).",
+        "The deployment completes successfully without the prior internal build/deploy error.",
+        "The app is reachable at the new canister’s icp0.io URL."
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Update `frontend/CUSTOM_DOMAIN_DEPLOYMENT.md` to provide clear, English, step-by-step instructions for connecting and verifying the custom domain `sciquiztn-knowledgebyte.in` (including where the domain value is configured in the repo).",
+      "text": "Update the frontend canister/agent configuration used by `createActorWithConfig` so the UI talks to the newly deployed backend canister ID after redeploying.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-1"
+          "msg-1"
         ],
         "quotes": [
-          "sciquiztn-knowledgebyte.in"
+          "Can you use another canister ID?"
         ]
       },
       "acceptanceCriteria": [
-        "The document explicitly names `sciquiztn-knowledgebyte.in` as the target domain",
-        "The document points to the exact file path `frontend/public/.well-known/ic-domains` as the domain configuration source",
-        "Instructions include a verification checklist (e.g., expected URL, basic smoke-test steps)"
+        "After deployment, the frontend loads without canister-resolution errors and can create the backend actor successfully.",
+        "Any generated canister-ID references used by the frontend are consistent with the newly deployed canister.",
+        "No changes are made to the immutable hook files (e.g., `frontend/src/hooks/useActor.ts`)."
       ]
     },
     {
       "id": "REQ-3",
-      "text": "Add an English, step-by-step guide in the frontend documentation for publishing the existing web app to the Google Play Store using a Trusted Web Activity (Bubblewrap), tailored to the deployed URL and including required Play Console assets and checklist.",
-      "target": "frontend",
+      "text": "If a custom domain is configured for the project, ensure the custom-domain verification file and deployment instructions remain consistent with the new canister deployment (i.e., do not break existing custom domain setup for `sciquiztn-knowledgebyte.in`).",
+      "target": "both",
       "source": {
         "messageIds": [
-          "msg-user-2"
+          "msg-1",
+          "msg-2"
         ],
         "quotes": [
-          "Yes prepare"
+          "Can you use another canister ID?",
+          "Try"
         ]
       },
       "acceptanceCriteria": [
-        "A new documentation file exists under `frontend/` (or `frontend/docs/` if present in the repo) describing how to generate an Android App Bundle (.aab) via Bubblewrap/TWA for this app",
-        "The guide includes: prerequisites, commands/steps to build the TWA, where to set the start URL, how to produce the `.aab`, and Play Console submission checklist",
-        "The guide lists the required store listing assets (icon, feature graphic, screenshots) and links to the generated filenames from `frontend/public/assets/generated/`"
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "text": "Add the required Play Store/TWA static images to `frontend/public/assets/generated/` and reference them from the Play Store (TWA) publishing guide.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-user-2"
-        ],
-        "quotes": [
-          "If I want to publish this app in Play Store what should I do?"
-        ]
-      },
-      "acceptanceCriteria": [
-        "The generated image files exist at `frontend/public/assets/generated/` with the exact filenames specified in this build request",
-        "The Play Store/TWA guide references these exact filenames and their intended usage (without requiring any backend routes to serve them)"
+        "`frontend/public/.well-known/ic-domains` still contains `sciquiztn-knowledgebyte.in` exactly.",
+        "No regressions are introduced in custom domain configuration documentation (`frontend/CUSTOM_DOMAIN_DEPLOYMENT.md`)."
       ]
     }
   ],
   "constraints": [
-    "Frontend paths listed as immutable in SYSTEM_CONTEXT must not be edited (compose components instead of modifying those sources).",
-    "Keep the backend single-actor architecture; do not introduce additional backend services.",
-    "Use English for any user-facing text or documentation added/updated.",
-    "Do not route generated images through the backend; serve them as static assets from `frontend/public/assets/generated/`."
+    "Backend must remain a single Motoko actor in `backend/main.mo` (no additional backend services).",
+    "Do not edit files under `frontend/src/components/ui`.",
+    "Do not edit immutable paths: `frontend/src/hooks/useInternetIdentity.ts`, `frontend/src/hooks/useInternetIdentity.tsx`, `frontend/src/hooks/useActor.ts`, `frontend/src/main.tsx`.",
+    "Use English for any user-facing text."
   ],
   "nonGoals": [
-    "No new quiz gameplay features or UI redesign unrelated to the custom domain connection or Play Store packaging.",
-    "No third-party authentication providers (only Internet Identity remains).",
-    "No native Android feature development beyond wrapping the existing web app via TWA."
+    "Adding new quiz features or changing quiz content.",
+    "Implementing third-party authentication providers (only Internet Identity is supported).",
+    "Adding real-time features (e.g., WebSockets/chat).",
+    "Play Store/TWA asset generation or publishing steps (unless required to keep deployment consistent)."
   ],
   "imageRequirements": {
-    "required": [
-      "Square app icon illustration: a clean, modern science quiz emblem with simple lab/atom motifs, high contrast, no text (playstore-icon.dim_512x512.png)",
-      "Wide feature graphic illustration: abstract science-themed banner with subtle icons (molecule, flask, lightning) and clean gradients, no text (playstore-feature-graphic.dim_1024x500.png)",
-      "Screenshot-style promo image: a realistic app UI mock of a quiz question screen on a generic phone frame, science-themed background accents, no store badges (playstore-screenshot-1.dim_1080x1920.png)",
-      "Screenshot-style promo image: a realistic app UI mock of results screen on a generic phone frame, celebratory science-themed accents, no text overlays (playstore-screenshot-2.dim_1080x1920.png)"
-    ],
+    "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

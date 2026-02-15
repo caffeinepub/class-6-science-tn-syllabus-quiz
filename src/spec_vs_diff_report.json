@@ -1,78 +1,72 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-15T01:58:30.060Z",
-  "summary": "Custom-domain documentation and a new Play Store TWA guide file were added/updated, but the diff does not provide evidence that the actual IC custom-domain config file was updated, the TWA guide includes the required asset references/checklists, or that the required Play Store images were added. Additionally, substantial unrelated quiz UI/gameplay and data changes were made that are outside the stated scope/non-goals.",
+  "generatedAt": "2026-02-15T02:41:06.571Z",
+  "summary": "The diff primarily introduces extensive frontend quiz/UI changes and question/validation/scoring updates, plus partial documentation edits. It does not show changes that provision a new canister ID, update frontend actor/canister configuration to target that new backend canister, or preserve/verify the custom-domain verification file contents as required.",
   "missing_requirements": [
     {
       "id": "REQ-1",
-      "requirement": "Update the Internet Computer custom-domain configuration to use the full domain `sciquiztn-knowledgebyte.in` (i.e., `frontend/public/.well-known/ic-domains` contains the full domain).",
-      "reason": "The diff summary shows documentation referencing `frontend/public/.well-known/ic-domains`, but does not list `frontend/public/.well-known/ic-domains` itself as added/modified; therefore there is no direct evidence the configuration file was actually updated in the repo.",
+      "requirement": "Provision and deploy the app to a new Internet Computer canister ID (do not reuse the previously deployed canister), so the live site is served from the new canister.",
+      "reason": "No evidence in the diff summary of any deployment/canister provisioning changes (e.g., dfx config, canister IDs, scripts) or any backend deployment updates; only frontend code/data and docs are shown as modified.",
       "evidence": [
-        "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md (mentions the path, but the file itself is not shown as changed in the diff list)"
+        "frontend-file-summaries.txt",
+        "project_state.json"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "requirement": "Update the frontend canister/agent configuration used by createActorWithConfig so the UI talks to the newly deployed backend canister ID after redeploying.",
+      "reason": "The diff summary does not show any changes to frontend canister/agent configuration files (e.g., a config file or generated canister ID references). README mentions configuration in frontend/src/config.ts, but that file is not shown as modified and no actual canister ID update is evidenced.",
+      "evidence": [
+        "frontend/README.md",
+        "frontend-file-summaries.txt"
       ]
     },
     {
       "id": "REQ-3",
-      "requirement": "Add an English, step-by-step TWA/Bubblewrap publishing guide tailored to the deployed URL, including prerequisites, commands/steps, where to set the start URL, how to produce the .aab, and a Play Console submission checklist; also list required store assets and link to filenames in `frontend/public/assets/generated/`.",
-      "reason": "A new file `frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md` exists, but the provided content is truncated early (ends at “Install Bubblewrap”). The diff summary does not show the required sections (start URL configuration, .aab build steps, submission checklist, and explicit links to the required generated asset filenames).",
+      "requirement": "Ensure the custom-domain verification file and deployment instructions remain consistent with the new canister deployment (do not break existing custom domain setup for sciquiztn-knowledgebyte.in).",
+      "reason": "The diff includes a truncated edit to frontend/CUSTOM_DOMAIN_DEPLOYMENT.md, but provides no evidence that frontend/public/.well-known/ic-domains still contains exactly \"sciquiztn-knowledgebyte.in\". The key verification file itself is not shown as modified or verified in the diff summary.",
       "evidence": [
-        "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md (content shown only through prerequisites + start of “Step 1: Install Bubblewrap”)"
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "requirement": "Add required Play Store/TWA static images to `frontend/public/assets/generated/` with the exact specified filenames and reference them from the TWA publishing guide.",
-      "reason": "No files under `frontend/public/assets/generated/` are shown as added in the diff summary, and the visible portion of the TWA guide does not reference the required filenames.",
-      "evidence": [
-        "Added/Modified file list does not include any `frontend/public/assets/generated/*` image files",
-        "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md (truncated; no evidence of asset filename references)"
+        "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "Major UI/UX redesign and gamified styling changes across core quiz screens and layout (headers, tabs, animations, countdown timer, modals, progress UI, results badges, etc.).",
-      "reason": "The BuildRequest explicitly states non-goals: “No new quiz gameplay features or UI redesign unrelated to the custom domain connection or Play Store packaging.” These changes appear unrelated to custom domain or Play Store/TWA packaging.",
-      "evidence": [
-        "frontend-file-summaries.txt (summaries for frontend/src/components/Layout.tsx, frontend/src/screens/StartScreen.tsx, QuestionScreen.tsx, ResultsScreen.tsx, ReviewScreen.tsx, frontend/src/index.css, tailwind config, etc.)"
-      ]
-    },
-    {
-      "description": "Changes to quiz data loading/validation/scoring and question datasets (e.g., normalization of text-based answers, handling unanswered questions, loading questions for Class 6–10).",
-      "reason": "Not requested by any REQ; outside the scope focused on custom domain configuration and Play Store/TWA publishing guide/assets.",
-      "evidence": [
-        "frontend-file-summaries.txt (summaries for frontend/src/quiz/validateQuestions.ts, loadQuestions.ts, scoring.ts, types.ts, frontend/src/data/questions.js)"
-      ]
-    },
-    {
-      "description": "Updates to general frontend README to describe quiz features and question formats.",
-      "reason": "Not requested; BuildRequest only asks to update custom domain deployment doc and add Play Store/TWA publishing guide.",
-      "evidence": [
-        "frontend-file-summaries.txt (summary for frontend/README.md)"
-      ]
-    },
-    {
-      "description": "Addition/modification of internal tracking/state file `project_state.json` with AR entries/statuses.",
-      "reason": "Not requested in the BuildRequest requirements.",
-      "evidence": [
-        "project_state.json"
-      ]
-    },
-    {
-      "description": "Modification of `frontend-file-summaries.txt` (meta summary file).",
-      "reason": "Not part of requested deliverables (custom domain config/doc + Play Store guide + static images).",
+      "description": "Major redesign of quiz UI (\"modern gamified\" layout/screens/components), including timers, new progress/feedback flows, icons, animations, background music controls, and enhanced styling.",
+      "reason": "Not requested; explicitly outside the stated goals (no new quiz features or changing quiz content) and unrelated to redeploying to a new canister ID / updating canister configuration.",
       "evidence": [
         "frontend-file-summaries.txt"
       ]
+    },
+    {
+      "description": "Changes to quiz logic/types/scoring to support unanswered questions (null selectedOption) and new two-phase answer flow (submit then advance).",
+      "reason": "Not requested and constitutes new/changed quiz behavior, which is a non-goal.",
+      "evidence": [
+        "frontend-file-summaries.txt"
+      ]
+    },
+    {
+      "description": "Runtime question validation that normalizes text-based answers to indices via flexible matching and adds detailed validation errors; plus loading questions across Class 6–10 datasets.",
+      "reason": "Not requested and changes quiz data handling/content pipeline rather than deployment/canister targeting.",
+      "evidence": [
+        "frontend-file-summaries.txt"
+      ]
+    },
+    {
+      "description": "Large update/replace of Class 6 questions dataset (180 questions) and multi-class level support documentation.",
+      "reason": "Not requested; changing quiz content is a non-goal.",
+      "evidence": [
+        "frontend-file-summaries.txt",
+        "frontend/README.md"
+      ]
     }
   ],
-  "confidence": 0.72,
+  "confidence": 0.74,
   "changed_files": [
     "frontend-file-summaries.txt",
     "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md",
-    "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md",
-    "frontend/public/.well-known/ic-domains",
+    "frontend/README.md",
     "project_state.json"
   ]
 }

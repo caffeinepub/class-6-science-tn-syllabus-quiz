@@ -2,10 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-the-internet-computer-custom-domain-configuration-to-use-the-full-domain-sciquiztn-knowledgebyte-in-so-the-app-is-accessible-via-that-domain-instead-of-the-icp0-io-canister-subdomain-to-mitigate-canister-id-not-resolved-dns-issues-on-some-isps",
-      "featureTitle": "Update the Internet Computer custom-domain configuration to use the full domain `sciquiztn-knowledgebyte.in` so the app is accessible via that domain instead of the `icp0.io` canister subdomain (to mitigate “canister ID not resolved” / DNS issues on some ISPs).",
+      "featureId": "feature-provision-and-deploy-the-app-to-a-new-internet-computer-canister-id-i-e-do-not-reuse-the-previously-deployed-canister-so-the-live-site-is-served-from-the-new-canister",
+      "featureTitle": "Provision and deploy the app to a new Internet Computer canister ID (i.e., do not reuse the previously deployed canister), so the live site is served from the new canister.",
       "files": [
-        "frontend/public/.well-known/ic-domains"
+        "frontend/README.md"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -20,8 +20,8 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-update-frontend-custom-domain-deployment-md-to-provide-clear-english-step-by-step-instructions-for-connecting-and-verifying-the-custom-domain-sciquiztn-knowledgebyte-in-including-where-the-domain-value-is-configured-in-the-repo",
-      "featureTitle": "Update `frontend/CUSTOM_DOMAIN_DEPLOYMENT.md` to provide clear, English, step-by-step instructions for connecting and verifying the custom domain `sciquiztn-knowledgebyte.in` (including where the domain value is configured in the repo).",
+      "featureId": "feature-if-a-custom-domain-is-configured-for-the-project-ensure-the-custom-domain-verification-file-and-deployment-instructions-remain-consistent-with-the-new-canister-deployment-i-e-do-not-break-existing-custom-domain-setup-for-sciquiztn-knowledgebyte-in",
+      "featureTitle": "If a custom domain is configured for the project, ensure the custom-domain verification file and deployment instructions remain consistent with the new canister deployment (i.e., do not break existing custom domain setup for `sciquiztn-knowledgebyte.in`).",
       "files": [
         "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md"
       ],
@@ -33,43 +33,7 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-2"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-add-an-english-step-by-step-guide-in-the-frontend-documentation-for-publishing-the-existing-web-app-to-the-google-play-store-using-a-trusted-web-activity-bubblewrap-tailored-to-the-deployed-url-and-including-required-play-console-assets-and-checklist",
-      "featureTitle": "Add an English, step-by-step guide in the frontend documentation for publishing the existing web app to the Google Play Store using a Trusted Web Activity (Bubblewrap), tailored to the deployed URL and including required Play Console assets and checklist.",
-      "files": [
-        "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
         "REQ-3"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-add-the-required-play-store-twa-static-images-to-frontend-public-assets-generated-and-reference-them-from-the-play-store-twa-publishing-guide",
-      "featureTitle": "Add the required Play Store/TWA static images to `frontend/public/assets/generated/` and reference them from the Play Store (TWA) publishing guide.",
-      "files": [
-        "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-4"
       ],
       "confidence": "high"
     }

@@ -1,65 +1,45 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-15T01:58:30.063Z",
+  "generatedAt": "2026-02-15T02:41:06.573Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 4,
-    "implemented": 4,
+    "total": 3,
+    "implemented": 2,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Update the Internet Computer custom-domain configuration to use the full domain `sciquiztn-knowledgebyte.in` so the app is accessible via that domain instead of the `icp0.io` canister subdomain (to mitigate “canister ID not resolved” / DNS issues on some ISPs).",
+        "summary": "Provision and deploy the app to a new Internet Computer canister ID (i.e., do not reuse the previously deployed canister), so the live site is served from the new canister.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/public/.well-known/ic-domains"
+          "frontend/README.md"
         ],
         "matchedFiles": [
-          "frontend/public/.well-known/ic-domains"
+          "frontend/README.md"
         ]
       },
       {
         "id": "REQ-2",
-        "summary": "Update `frontend/CUSTOM_DOMAIN_DEPLOYMENT.md` to provide clear, English, step-by-step instructions for connecting and verifying the custom domain `sciquiztn-knowledgebyte.in` (including where the domain value is configured in the repo).",
-        "status": "implemented",
+        "summary": "Update the frontend canister/agent configuration used by `createActorWithConfig` so the UI talks to the newly deployed backend canister ID after redeploying.",
+        "status": "missing",
         "plannedFiles": [
-          "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md"
+          "frontend/src/config.ts"
         ],
-        "matchedFiles": [
-          "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md"
-        ]
+        "matchedFiles": []
       },
       {
         "id": "REQ-3",
-        "summary": "Add an English, step-by-step guide in the frontend documentation for publishing the existing web app to the Google Play Store using a Trusted Web Activity (Bubblewrap), tailored to the deployed URL and including required Play Console assets and checklist.",
+        "summary": "If a custom domain is configured for the project, ensure the custom-domain verification file and deployment instructions remain consistent with the new canister deployment (i.e., do not break existing custom domain setup for `sciquiztn-knowledgebyte.in`).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md"
+          "frontend/public/.well-known/ic-domains",
+          "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md"
         ],
         "matchedFiles": [
-          "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md"
-        ]
-      },
-      {
-        "id": "REQ-4",
-        "summary": "Add the required Play Store/TWA static images to `frontend/public/assets/generated/` and reference them from the Play Store (TWA) publishing guide.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/public/assets/generated/playstore-icon.dim_512x512.png",
-          "frontend/public/assets/generated/playstore-feature-graphic.dim_1024x500.png",
-          "frontend/public/assets/generated/playstore-screenshot-1.dim_1080x1920.png",
-          "frontend/public/assets/generated/playstore-screenshot-2.dim_1080x1920.png",
-          "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md"
-        ],
-        "matchedFiles": [
-          "frontend/public/assets/generated/playstore-icon.dim_512x512.png",
-          "frontend/public/assets/generated/playstore-feature-graphic.dim_1024x500.png",
-          "frontend/public/assets/generated/playstore-screenshot-1.dim_1080x1920.png",
-          "frontend/public/assets/generated/playstore-screenshot-2.dim_1080x1920.png",
-          "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md"
+          "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md"
         ]
       }
     ]
@@ -70,12 +50,7 @@
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
     "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md",
-    "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md",
-    "frontend/public/.well-known/ic-domains",
-    "frontend/public/assets/generated/playstore-feature-graphic.dim_1024x500.png",
-    "frontend/public/assets/generated/playstore-icon.dim_512x512.png",
-    "frontend/public/assets/generated/playstore-screenshot-1.dim_1080x1920.png",
-    "frontend/public/assets/generated/playstore-screenshot-2.dim_1080x1920.png",
+    "frontend/README.md",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

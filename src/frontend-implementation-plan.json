@@ -1,88 +1,57 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Custom domain update for sciquiztn-knowledgebyte.in and Play Store (TWA/Bubblewrap) publishing documentation",
+  "title": "Retry deployment with new canister ID: update frontend canister targeting and preserve custom domain setup",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Update IC custom-domain configuration to use the full domain sciquiztn-knowledgebyte.in (not the bare label) so the app is accessible via https://sciquiztn-knowledgebyte.in.",
+      "summary": "Update frontend-facing deployment documentation to reflect deploying to a newly provisioned canister ID and serving the live site from it.",
       "acceptanceCriteria": [
-        "`frontend/public/.well-known/ic-domains` contains `sciquiztn-knowledgebyte.in` (and does not rely on only the bare label without the TLD)",
-        "The custom domain documentation reflects `sciquiztn-knowledgebyte.in` consistently",
-        "After deployment, the app is reachable via `https://sciquiztn-knowledgebyte.in`"
+        "A new canister ID is created/selected for deployment (different from the previously used one).",
+        "The deployment completes successfully without the prior internal build/deploy error.",
+        "The app is reachable at the new canister’s icp0.io URL."
       ],
       "file_operations": [
         {
-          "path": "frontend/public/.well-known/ic-domains",
+          "path": "frontend/README.md",
           "operation": "modify",
-          "description": "Replace the current bare-label entry with the full custom domain `sciquiztn-knowledgebyte.in` (ensure the file contains the fully-qualified domain and no longer relies on `sciquiztn-knowledgebyte` alone)."
+          "description": "Document the redeployment expectation that a NEW canister ID is used, and call out where the frontend reads the backend canister ID so it can be updated in lockstep after redeploy. Keep guidance capability-focused (no backend implementation details)."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Rewrite the custom domain deployment doc in clear English with step-by-step setup and verification checklist for sciquiztn-knowledgebyte.in, including where it is configured in the repo.",
+      "summary": "Update the frontend actor configuration so createActorWithConfig targets the newly deployed backend canister ID without touching immutable hooks.",
       "acceptanceCriteria": [
-        "The document explicitly names `sciquiztn-knowledgebyte.in` as the target domain",
-        "The document points to the exact file path `frontend/public/.well-known/ic-domains` as the domain configuration source",
-        "Instructions include a verification checklist (e.g., expected URL, basic smoke-test steps)"
+        "After deployment, the frontend loads without canister-resolution errors and can create the backend actor successfully.",
+        "Any generated canister-ID references used by the frontend are consistent with the newly deployed canister.",
+        "No changes are made to the immutable hook files (e.g., `frontend/src/hooks/useActor.ts`)."
       ],
       "file_operations": [
         {
-          "path": "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md",
+          "path": "frontend/src/config.ts",
           "operation": "modify",
-          "description": "Update the document to use `sciquiztn-knowledgebyte.in` consistently and provide clear step-by-step instructions: where to set the domain in-repo (explicitly reference `frontend/public/.well-known/ic-domains`), DNS records guidance at a high level, deployment steps, and a verification checklist (expected URL `https://sciquiztn-knowledgebyte.in`, basic smoke tests, and common troubleshooting notes)."
+          "description": "Update the configuration used by createActorWithConfig to resolve the backend canister ID for the newly deployed canister (e.g., via the project’s generated canister ID source and/or build-time environment configuration) so actor creation succeeds after redeploy. Use the selected core-infrastructure component’s backend connection configuration capabilities where applicable. Verify the component's usage instructions before implementing."
         }
       ]
     },
     {
       "id": "REQ-3",
-      "summary": "Add an English step-by-step guide for publishing the existing web app to Google Play using a Trusted Web Activity (Bubblewrap), tailored to https://sciquiztn-knowledgebyte.in and including Play Console assets/checklist.",
+      "summary": "Ensure custom domain verification and documentation remain correct and unchanged in behavior after switching to a new canister deployment.",
       "acceptanceCriteria": [
-        "A new documentation file exists under `frontend/` (or `frontend/docs/` if present in the repo) describing how to generate an Android App Bundle (.aab) via Bubblewrap/TWA for this app",
-        "The guide includes: prerequisites, commands/steps to build the TWA, where to set the start URL, how to produce the `.aab`, and Play Console submission checklist",
-        "The guide lists the required store listing assets (icon, feature graphic, screenshots) and links to the generated filenames from `frontend/public/assets/generated/`"
+        "`frontend/public/.well-known/ic-domains` still contains `sciquiztn-knowledgebyte.in` exactly.",
+        "No regressions are introduced in custom domain configuration documentation (`frontend/CUSTOM_DOMAIN_DEPLOYMENT.md`)."
       ],
       "file_operations": [
         {
-          "path": "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md",
-          "operation": "create",
-          "description": "Create an English, step-by-step Bubblewrap/TWA publishing guide tailored to the deployed URL `https://sciquiztn-knowledgebyte.in`. Include: prerequisites (Node/Java/Android tooling), Bubblewrap installation, how/where to set the start URL (`https://sciquiztn-knowledgebyte.in`), steps/commands to initialize and build the TWA, how to produce an Android App Bundle (.aab), signing/keystore considerations (high-level), and a Play Console submission checklist. Also include a section listing required store assets and reference these exact repo files: `frontend/public/assets/generated/playstore-icon.dim_512x512.png`, `frontend/public/assets/generated/playstore-feature-graphic.dim_1024x500.png`, `frontend/public/assets/generated/playstore-screenshot-1.dim_1080x1920.png`, `frontend/public/assets/generated/playstore-screenshot-2.dim_1080x1920.png`."
-        }
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "summary": "Add required static Play Store/TWA images under frontend/public/assets/generated and ensure the publishing guide references the exact filenames and intended usage.",
-      "acceptanceCriteria": [
-        "The generated image files exist at `frontend/public/assets/generated/` with the exact filenames specified in this build request",
-        "The Play Store/TWA guide references these exact filenames and their intended usage (without requiring any backend routes to serve them)"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/public/assets/generated/playstore-icon.dim_512x512.png",
-          "operation": "create",
-          "description": "Add the required static asset image file at the exact path `frontend/public/assets/generated/playstore-icon.dim_512x512.png` for the Play Store app icon."
-        },
-        {
-          "path": "frontend/public/assets/generated/playstore-feature-graphic.dim_1024x500.png",
-          "operation": "create",
-          "description": "Add the required static asset image file at the exact path `frontend/public/assets/generated/playstore-feature-graphic.dim_1024x500.png` for the Play Store feature graphic."
-        },
-        {
-          "path": "frontend/public/assets/generated/playstore-screenshot-1.dim_1080x1920.png",
-          "operation": "create",
-          "description": "Add the required static asset image file at the exact path `frontend/public/assets/generated/playstore-screenshot-1.dim_1080x1920.png` for a Play Store screenshot (quiz question screen mock)."
-        },
-        {
-          "path": "frontend/public/assets/generated/playstore-screenshot-2.dim_1080x1920.png",
-          "operation": "create",
-          "description": "Add the required static asset image file at the exact path `frontend/public/assets/generated/playstore-screenshot-2.dim_1080x1920.png` for a Play Store screenshot (results screen mock)."
-        },
-        {
-          "path": "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md",
+          "path": "frontend/public/.well-known/ic-domains",
           "operation": "modify",
-          "description": "Ensure the guide explicitly references (by full workspace path) the four generated images under `frontend/public/assets/generated/` and describes each file’s intended Play Console usage (icon, feature graphic, screenshots), emphasizing they are served as static assets and do not require any backend routing."
+          "description": "Verify the file remains a single-line domain verification file containing exactly `sciquiztn-knowledgebyte.in` (no additional domains; no formatting changes that would affect verification)."
+        },
+        {
+          "path": "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md",
+          "operation": "modify",
+          "description": "Review and, if necessary, adjust wording to ensure instructions remain consistent when deploying to a new canister ID (while preserving the existing custom-domain setup and avoiding breaking changes to the documented flow)."
         }
       ]
     }
