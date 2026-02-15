@@ -1,10 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Provide end-to-end guidance for publishing the existing web app to Google Play Store via Trusted Web Activity (Bubblewrap), and clarify that only Internet Identity authentication is supported in-app.
+**Goal:** Unblock frontend deployment and Android AAB packaging by repairing malformed quiz question datasets and adding a fail-fast integrity check to the build workflow.
 
 **Planned changes:**
-- Update repository documentation with a step-by-step TWA/Bubblewrap workflow for producing signed Android build artifacts (AAB/APK), including package name/signing key guidance, required manifest/icon checks, Digital Asset Links verification, and Play Console release steps using the documented production domain.
-- Add an in-app “Authentication” help section/screen explaining that Internet Identity is the supported sign-in method and that Firebase-based providers (Google, Microsoft/Outlook, phone OTP, email/password) are not available in this build environment.
+- Repair/complete the quiz question data modules for Class 6–10 so each file is a valid JavaScript module exporting a complete default array and the frontend bundler can compile.
+- Add a pre-build questions integrity check that imports all Class 6–10 datasets and runs the existing question validation logic, failing with clear English errors and a non-zero exit code when invalid.
+- Update the Android AAB release build script to run the integrity check before Bubblewrap steps and stop early with a clear error if validation fails.
 
-**User-visible outcome:** Developers can follow the documentation to package and submit the app to the Play Console as a TWA, and users can view a clear in-app explanation of supported authentication (Internet Identity only).
+**User-visible outcome:** The app builds successfully without questions import/parse crashes, quizzes for Class 6–10 can start from level selection, and the AAB release build fails early with actionable errors if question data is broken.

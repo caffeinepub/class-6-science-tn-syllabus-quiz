@@ -25,6 +25,27 @@ Before you begin, ensure you have:
     - Android SDK Build-Tools (latest version)
     - Android SDK Platform-Tools
     - Android SDK Command-line Tools
+  - **Set environment variable:**
+    ```bash
+    export ANDROID_HOME=~/Android/Sdk  # Linux/Mac
+    # or
+    export ANDROID_SDK_ROOT=~/Android/Sdk
+    ```
+    On Windows:
+    ```cmd
+    set ANDROID_HOME=C:\Users\YourUsername\AppData\Local\Android\Sdk
+    ```
+- **jq** (JSON processor): Required for manifest generation
+  ```bash
+  # Ubuntu/Debian
+  sudo apt-get install jq
+  
+  # macOS
+  brew install jq
+  
+  # Windows (via Chocolatey)
+  choco install jq
+  ```
 
 ### 2. Accounts & Fees
 
@@ -44,6 +65,8 @@ Before you begin, ensure you have:
 Before packaging your TWA, ensure these assets are in place:
 
 - ✅ **PWA Manifest** (`frontend/public/manifest.webmanifest`) - defines app identity, icons, colors
+  - **IMPORTANT:** `start_url` and `scope` must remain `https://sciquiztn-knowledgebyte.in/`
+  - This is the source of truth for the TWA configuration
 - ✅ **App Icons** - 512×512px icon at `frontend/public/assets/generated/playstore-icon.dim_512x512.png`
 - ✅ **Digital Asset Links** (`frontend/public/.well-known/assetlinks.json`) - for TWA verification
 - ✅ **Custom Domain Verification** (`frontend/public/.well-known/ic-domains`) - for IC hosting
@@ -52,7 +75,11 @@ All these files are included in this repository and will be deployed with your a
 
 ---
 
-## Step 1: Install Bubblewrap
+## Quick Start: One-Command AAB Build
 
-Bubblewrap is Google's official tool for creating TWAs.
+This repository includes a pre-configured Bubblewrap/TWA setup and a single script to build your release AAB.
+
+### Step 1: Generate Your Signing Key (First Time Only)
+
+If you don't already have a keystore file, generate one:
 

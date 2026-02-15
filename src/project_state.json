@@ -1,61 +1,40 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Plan to publish the app to Google Play Store and add Firebase authentication (Google, Microsoft/Outlook, phone number) plus a username/password sign-up flow.",
+  "summary": "New project",
   "architectural_notes": [],
-  "known_issues": [],
-  "isFixRequest": false,
+  "known_issues": [
+    "Deployment failed during Android App Bundle (AAB) packaging step; likely due to broken/incomplete frontend file or truncated/malformed large JSON question data from previous build."
+  ],
+  "isFixRequest": true,
   "existing_features": [
     {
-      "id": "feature-update-the-google-play-store-publishing-documentation-to-provide-a-complete-step-by-step-workflow-for-shipping-the-existing-web-app-as-an-android-app-using-a-trusted-web-activity-bubblewrap-including-required-android-build-artifacts-package-name-signing-key-guidance-app-icon-manifest-checks-digital-asset-links-verification-and-play-console-release-steps-using-the-production-domain-referenced-in-the-repository-documentation",
-      "title": "Update the Google Play Store publishing documentation to provide a complete, step-by-step workflow for shipping the existing web app as an Android app using a Trusted Web Activity (Bubblewrap), including required Android build artifacts (package name, signing key guidance, app icon/manifest checks), Digital Asset Links verification, and Play Console release steps, using the production domain referenced in the repository documentation.",
+      "id": "feature-repair-any-malformed-or-truncated-quiz-question-data-modules-so-the-frontend-bundler-can-compile-successfully-specifically-verify-that-these-files-are-valid-javascript-modules-that-fully-parse-and-export-a-default-array-frontend-src-data-questions-js-frontend-src-data-questions-class7-js-frontend-src-data-questions-class8-js-frontend-src-data-questions-class9-js-frontend-src-data-questions-class10-js",
+      "title": "Repair any malformed or truncated quiz question data modules so the frontend bundler can compile successfully. Specifically verify that these files are valid JavaScript modules that fully parse and export a default array: frontend/src/data/questions.js, frontend/src/data/questions_class7.js, frontend/src/data/questions_class8.js, frontend/src/data/questions_class9.js, frontend/src/data/questions_class10.js.",
       "reqIds": [
-        "REQ-1"
+        "REQ-4"
       ],
       "version": 1
     },
     {
-      "id": "feature-add-an-in-app-authentication-help-section-screen-that-clearly-explains-which-login-methods-are-supported-in-this-internet-computer-app-build-internet-identity-and-explicitly-states-that-firebase-authentication-options-google-microsoft-outlook-phone-otp-and-email-password-are-not-available-in-this-platform-environment",
-      "title": "Add an in-app “Authentication” help section/screen that clearly explains which login methods are supported in this Internet Computer app build (Internet Identity), and explicitly states that Firebase authentication options (Google, Microsoft/Outlook, phone OTP, and email/password) are not available in this platform environment.",
+      "id": "feature-add-a-pre-build-questions-integrity-check-that-imports-all-question-datasets-class-6-10-and-runs-the-existing-validation-logic-frontend-src-quiz-validatequestions-ts-to-produce-a-clear-english-error-message-and-a-non-zero-exit-code-if-any-dataset-is-invalid",
+      "title": "Add a pre-build questions integrity check that imports all question datasets (Class 6–10) and runs the existing validation logic (frontend/src/quiz/validateQuestions.ts) to produce a clear, English error message and a non-zero exit code if any dataset is invalid.",
       "reqIds": [
-        "REQ-2"
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-android-release-aab-build-workflow-script-frontend-scripts-build-release-aab-sh-to-run-the-questions-integrity-check-before-initializing-bubblewrap-building-the-aab-and-stop-with-a-clear-error-if-validation-fails",
+      "title": "Update the Android release AAB build workflow script (frontend/scripts/build-release-aab.sh) to run the questions integrity check before initializing Bubblewrap / building the AAB, and stop with a clear error if validation fails.",
+      "reqIds": [
+        "REQ-6"
       ],
       "version": 1
     }
   ],
-  "new_feature_requests": [
-    {
-      "id": "AR-1",
-      "summary": "Publish the app to the Google Play Store (Android release packaging, listing, and deployment workflow).",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-2",
-      "summary": "Integrate Firebase Authentication with Google sign-in.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-3",
-      "summary": "Integrate Firebase Authentication with Microsoft (Outlook) sign-in.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-4",
-      "summary": "Integrate Firebase Authentication with phone number (OTP) sign-in.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-5",
-      "summary": "Create a sign-up/login page supporting user ID (email/username) and password using Firebase Authentication.",
-      "reqIds": [],
-      "status": "pending"
-    }
-  ],
-  "projectName": "Google Play Store (TWA) publishing guidance + clarify supported authentication (Internet Identity)",
+  "new_feature_requests": [],
+  "projectName": "Repair broken quiz question data files to unblock deployment and AAB packaging",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

@@ -1,47 +1,53 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-15T03:24:56.273Z",
+  "generatedAt": "2026-02-15T04:50:58.502Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 2,
-    "implemented": 2,
+    "total": 3,
+    "implemented": 3,
     "items": [
       {
-        "id": "REQ-1",
-        "summary": "Update the Google Play Store publishing documentation to provide a complete, step-by-step workflow for shipping the existing web app as an Android app using a Trusted Web Activity (Bubblewrap), including required Android build artifacts (package name, signing key guidance, app icon/manifest checks), Digital Asset Links verification, and Play Console release steps, using the production domain referenced in the repository documentation.",
+        "id": "REQ-4",
+        "summary": "Repair any malformed or truncated quiz question data modules so the frontend bundler can compile successfully. Specifically verify that these files are valid JavaScript modules that fully parse and export a default array: frontend/src/data/questions.js, frontend/src/data/questions_class7.js, frontend/src/data/questions_class8.js, frontend/src/data/questions_class9.js, frontend/src/data/questions_class10.js.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md",
-          "frontend/README.md",
-          "frontend/public/.well-known/assetlinks.json",
-          "frontend/public/manifest.webmanifest",
-          "frontend/index.html"
+          "frontend/src/data/questions.js",
+          "frontend/src/data/questions_class7.js",
+          "frontend/src/data/questions_class8.js",
+          "frontend/src/data/questions_class9.js",
+          "frontend/src/data/questions_class10.js",
+          "frontend/src/quiz/loadQuestions.ts"
         ],
         "matchedFiles": [
-          "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md",
-          "frontend/README.md",
-          "frontend/public/.well-known/assetlinks.json",
-          "frontend/public/manifest.webmanifest",
-          "frontend/index.html"
+          "frontend/src/data/questions_class9.js"
         ]
       },
       {
-        "id": "REQ-2",
-        "summary": "Add an in-app “Authentication” help section/screen that clearly explains which login methods are supported in this Internet Computer app build (Internet Identity), and explicitly states that Firebase authentication options (Google, Microsoft/Outlook, phone OTP, and email/password) are not available in this platform environment.",
+        "id": "REQ-5",
+        "summary": "Add a pre-build questions integrity check that imports all question datasets (Class 6–10) and runs the existing validation logic (frontend/src/quiz/validateQuestions.ts) to produce a clear, English error message and a non-zero exit code if any dataset is invalid.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/screens/AuthenticationHelpScreen.tsx",
-          "frontend/src/screens/LoginRequiredScreen.tsx",
-          "frontend/src/App.tsx"
+          "frontend/scripts/check-questions-integrity.ts",
+          "frontend/README.md"
         ],
         "matchedFiles": [
-          "frontend/src/screens/AuthenticationHelpScreen.tsx",
-          "frontend/src/screens/LoginRequiredScreen.tsx",
-          "frontend/src/App.tsx"
+          "frontend/scripts/check-questions-integrity.ts",
+          "frontend/README.md"
+        ]
+      },
+      {
+        "id": "REQ-6",
+        "summary": "Update the Android release AAB build workflow script (frontend/scripts/build-release-aab.sh) to run the questions integrity check before initializing Bubblewrap / building the AAB, and stop with a clear error if validation fails.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/scripts/build-release-aab.sh"
+        ],
+        "matchedFiles": [
+          "frontend/scripts/build-release-aab.sh"
         ]
       }
     ]
@@ -51,14 +57,10 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md",
     "frontend/README.md",
-    "frontend/index.html",
-    "frontend/public/.well-known/assetlinks.json",
-    "frontend/public/manifest.webmanifest",
-    "frontend/src/App.tsx",
-    "frontend/src/screens/AuthenticationHelpScreen.tsx",
-    "frontend/src/screens/LoginRequiredScreen.tsx",
+    "frontend/scripts/build-release-aab.sh",
+    "frontend/scripts/check-questions-integrity.ts",
+    "frontend/src/data/questions_class9.js",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

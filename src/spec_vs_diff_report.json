@@ -1,60 +1,44 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-15T03:24:56.271Z",
-  "summary": "REQ-2 appears partially implemented via a new AuthenticationHelpScreen and navigation from the login screen, but the diff is truncated so explicit Firebase-not-supported messaging cannot be confirmed. REQ-1 documentation was added/updated and references the production domain, but the provided excerpt does not show an end-to-end Bubblewrap→signed AAB/APK→Play Console workflow or signing key/release steps. Several unrelated quiz/UI enhancements were also introduced.",
+  "generatedAt": "2026-02-15T04:50:58.500Z",
+  "summary": "REQ-6 appears implemented (AAB build script runs a questions integrity check first). A questions integrity check script was added (REQ-5), but based on the diff it may not be runnable as a single local/CI command because it is a TypeScript file invoked via plain `node`. Only one questions dataset file (Class 9) is shown as repaired; evidence for repairs to the other required question modules (Class 6, 7, 8, 10) is not present in the diff summary. Several unrequested product features are described/introduced in documentation and summaries (e.g., gamified UI, timer, background music).",
   "missing_requirements": [
     {
-      "id": "REQ-1",
-      "requirement": "Provide complete, step-by-step end-to-end workflow for shipping the web app as an Android app using TWA/Bubblewrap, including required Android build artifacts (package name, signing key guidance, icon/manifest checks), Digital Asset Links verification, and Play Console release steps.",
-      "reason": "The added guide is present and starts with prerequisites and 'Step 1: Install Bubblewrap', but the diff excerpt does not include (or at least does not provide evidence of) the full end-to-end steps such as generating signed AAB/APK, signing key/keystore guidance, and Play Console release workflow.",
+      "id": "REQ-4",
+      "requirement": "Repair malformed/truncated quiz question data modules so the frontend bundler can compile successfully for all specified files (questions.js, questions_class7.js, questions_class8.js, questions_class9.js, questions_class10.js), each being a valid JS module exporting a default array.",
+      "reason": "The diff summary only shows a modification to `frontend/src/data/questions_class9.js`. There is no diff evidence that `frontend/src/data/questions.js`, `frontend/src/data/questions_class7.js`, `frontend/src/data/questions_class8.js`, or `frontend/src/data/questions_class10.js` were repaired/verified to be syntactically complete `export default [...]` modules.",
       "evidence": [
-        "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md"
+        "frontend/src/data/questions_class9.js"
       ]
     },
     {
-      "id": "REQ-2",
-      "requirement": "Authentication help section explicitly states Firebase authentication options (Google, Microsoft/Outlook, phone OTP, email/password) are not supported in this build environment.",
-      "reason": "An AuthenticationHelpScreen was added, but the file is truncated before showing whether it explicitly mentions that Firebase-based login providers are not supported.",
+      "id": "REQ-5",
+      "requirement": "Add a pre-build questions integrity check runnable as a single command/script in local/CI that imports all datasets (Class 6–10), runs existing validation logic, prints clear English errors, and exits non-zero on failure (including syntax/import failures).",
+      "reason": "Although `frontend/scripts/check-questions-integrity.ts` was added and `build-release-aab.sh` invokes it via `node scripts/check-questions-integrity.ts`, the check script is a `.ts` file and appears to be executed with plain `node` (no evidence of ts-node/tsx compilation step). This may not satisfy the requirement of a runnable single command in typical CI/local environments.",
       "evidence": [
-        "frontend/src/screens/AuthenticationHelpScreen.tsx"
+        "frontend/scripts/check-questions-integrity.ts",
+        "frontend/scripts/build-release-aab.sh"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "Major 'modern gamified' UI redesign and feature additions across multiple quiz screens (countdown timer, new progress/feedback flows, animations, confirmation modal, etc.).",
-      "reason": "Not requested by REQ-1 or REQ-2 (scope was Play Store/TWA documentation + authentication help clarification).",
+      "description": "Introduced/advertised major UI/feature changes (e.g., 'gamified UI', animations, timed questions, background music) which are outside the stated non-goals and not requested by REQ-4/5/6.",
+      "reason": "BuildRequest explicitly lists non-goals like not redesigning the app UI/visual theme and not adding new functionality beyond repairing question data and adding a validation check. The diff includes documentation/summaries describing these new features.",
       "evidence": [
-        "frontend-file-summaries.txt (summaries for Layout.tsx, StartScreen.tsx, QuestionScreen.tsx, ResultsScreen.tsx, ReviewScreen.tsx, ProgressIndicator.tsx, index.css)"
-      ]
-    },
-    {
-      "description": "Expanded quiz data/model changes and validation/scoring logic updates (null selectedOption, text-to-index answer normalization, multi-level question loading).",
-      "reason": "Not requested by REQ-1 or REQ-2.",
-      "evidence": [
-        "frontend-file-summaries.txt (summaries for frontend/src/quiz/types.ts, validateQuestions.ts, loadQuestions.ts, scoring.ts, data/questions.js)"
-      ]
-    },
-    {
-      "description": "Added/updated project planning metadata suggesting Firebase authentication and username/password sign-up flows.",
-      "reason": "BuildRequest explicitly disallows implementing Firebase authentication options; while this is not implementation code, it introduces unrequested (and constraint-conflicting) feature planning content.",
-      "evidence": [
-        "project_state.json"
+        "frontend/README.md",
+        "frontend-file-summaries.txt"
       ]
     }
   ],
   "confidence": 0.68,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md",
     "frontend/README.md",
-    "frontend/index.html",
-    "frontend/public/.well-known/assetlinks.json",
-    "frontend/public/manifest.webmanifest",
-    "frontend/src/App.tsx",
-    "frontend/src/screens/AuthenticationHelpScreen.tsx",
-    "frontend/src/screens/LoginRequiredScreen.tsx",
+    "frontend/scripts/build-release-aab.sh",
+    "frontend/scripts/check-questions-integrity.ts",
+    "frontend/src/data/questions_class9.js",
     "project_state.json"
   ]
 }

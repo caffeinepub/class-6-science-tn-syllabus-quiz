@@ -1,54 +1,71 @@
 {
   "kind": "build_request",
-  "title": "Google Play Store (TWA) publishing guidance + clarify supported authentication (Internet Identity)",
+  "title": "Repair broken quiz question data files to unblock deployment and AAB packaging",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-1",
-      "text": "Update the Google Play Store publishing documentation to provide a complete, step-by-step workflow for shipping the existing web app as an Android app using a Trusted Web Activity (Bubblewrap), including required Android build artifacts (package name, signing key guidance, app icon/manifest checks), Digital Asset Links verification, and Play Console release steps, using the production domain referenced in the repository documentation.",
+      "id": "REQ-4",
+      "text": "Repair any malformed or truncated quiz question data modules so the frontend bundler can compile successfully. Specifically verify that these files are valid JavaScript modules that fully parse and export a default array: frontend/src/data/questions.js, frontend/src/data/questions_class7.js, frontend/src/data/questions_class8.js, frontend/src/data/questions_class9.js, frontend/src/data/questions_class10.js.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-8"
+          "msg-1"
         ],
         "quotes": [
-          "I want to publish it in Google play Store"
+          "Repair and do"
         ]
       },
       "acceptanceCriteria": [
-        "The repository contains updated Play Store/TWA documentation that a developer can follow end-to-end to produce a signed Android App Bundle/APK for Play Console submission.",
-        "The documentation explicitly references the correct production web origin (custom domain) for TWA hosting and verification.",
-        "The documentation includes a checklist for required web/PWA assets (e.g., icons/manifest) and asset-links verification prerequisites."
+        "Running the frontend build succeeds without syntax/module-parse errors from any questions_*.js file.",
+        "Each questions data file ends with a complete, syntactically valid `export default [...]` (no unterminated strings/objects/arrays).",
+        "The app can navigate through quiz level selection and start a quiz for Class 6–10 without crashing at import time."
       ]
     },
     {
-      "id": "REQ-2",
-      "text": "Add an in-app “Authentication” help section/screen that clearly explains which login methods are supported in this Internet Computer app build (Internet Identity), and explicitly states that Firebase authentication options (Google, Microsoft/Outlook, phone OTP, and email/password) are not available in this platform environment.",
+      "id": "REQ-5",
+      "text": "Add a pre-build questions integrity check that imports all question datasets (Class 6–10) and runs the existing validation logic (frontend/src/quiz/validateQuestions.ts) to produce a clear, English error message and a non-zero exit code if any dataset is invalid.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-8"
+          "msg-1"
         ],
         "quotes": [
-          "with proper firebase login with Google, Outlook or via phone number options. Also if possible create sign up page for user id and password"
+          "Repair and do"
         ]
       },
       "acceptanceCriteria": [
-        "Unauthenticated users can access a short help section that explains the supported sign-in method (Internet Identity) in clear English.",
-        "The help section explicitly mentions that Firebase-based login providers (Google, Microsoft/Outlook, phone number OTP, email/password) are not supported in this build environment.",
-        "No references to Firebase login buttons/options are added to the login flow; the existing Internet Identity login remains functional."
+        "A single command/script can be run locally (and in CI/build environments) to validate all question files and fail fast with an actionable error indicating which class level failed.",
+        "If a questions file has the wrong shape (e.g., missing question/options/correct answer fields) the validator reports the first offending question with context (level + question number) using the existing validation behavior.",
+        "If a questions file cannot be imported due to syntax errors, the check fails and prints which file/level could not be loaded."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Update the Android release AAB build workflow script (frontend/scripts/build-release-aab.sh) to run the questions integrity check before initializing Bubblewrap / building the AAB, and stop with a clear error if validation fails.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Repair and do"
+        ]
+      },
+      "acceptanceCriteria": [
+        "When the questions integrity check fails, build-release-aab.sh exits before `bubblewrap init`/`bubblewrap build` and prints an English error describing that question data must be fixed first.",
+        "When the questions integrity check passes, the script proceeds as before and can produce an AAB (assuming external prerequisites like Java/Android SDK/keystore are correct)."
       ]
     }
   ],
   "constraints": [
-    "Do not modify files under frontend/src/hooks/useInternetIdentity.ts or frontend/src/hooks/useActor.ts (immutable paths).",
-    "Firebase Authentication integration (Google/Microsoft/phone OTP/email-password) must not be implemented because third-party authentication is not supported; only Internet Identity is supported.",
-    "Do not introduce additional backend services or databases; backend must remain a single Motoko actor in backend/main.mo."
+    "Do not edit files under frontend/src/components/ui (compose them instead).",
+    "Do not modify frontend/src/hooks/useInternetIdentity.ts(x), frontend/src/hooks/useActor.ts, or frontend/src/main.tsx (immutable paths).",
+    "Keep all backend logic in the existing single Motoko actor (no new backend services)."
   ],
   "nonGoals": [
-    "Implementing Firebase SDK configuration, OAuth provider setup, or phone-number OTP flows.",
-    "Building a fully native Android app (the scope is TWA/Bubblewrap packaging of the existing web app).",
-    "Adding username/password credential storage or custom password authentication on the Motoko backend."
+    "Adding new quiz questions/content beyond repairing malformed/truncated data required to compile.",
+    "Changing authentication behavior or Internet Identity integration.",
+    "Redesigning the app UI/visual theme."
   ],
   "imageRequirements": {
     "required": [],

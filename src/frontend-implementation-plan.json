@@ -1,67 +1,82 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "TWA/Play Store publishing guide + in-app authentication help (Internet Identity only)",
+  "title": "Fix quiz dataset module integrity and add pre-build validation gate for AAB packaging",
   "requirements": [
     {
-      "id": "REQ-1",
-      "summary": "Expand the TWA/Bubblewrap Google Play publishing guide to an end-to-end workflow tied to the repository’s production custom domain, including artifact/signing guidance, Digital Asset Links verification, Play Console release steps, and a web/PWA asset checklist.",
+      "id": "REQ-4",
+      "summary": "Repair malformed/truncated quiz question data modules so they parse and export a default array for Class 6–10.",
       "acceptanceCriteria": [
-        "The repository contains updated Play Store/TWA documentation that a developer can follow end-to-end to produce a signed Android App Bundle/APK for Play Console submission.",
-        "The documentation explicitly references the correct production web origin (custom domain) for TWA hosting and verification.",
-        "The documentation includes a checklist for required web/PWA assets (e.g., icons/manifest) and asset-links verification prerequisites."
+        "Running the frontend build succeeds without syntax/module-parse errors from any questions_*.js file.",
+        "Each questions data file ends with a complete, syntactically valid `export default [...]` (no unterminated strings/objects/arrays).",
+        "The app can navigate through quiz level selection and start a quiz for Class 6–10 without crashing at import time."
       ],
       "file_operations": [
         {
-          "path": "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md",
+          "path": "frontend/src/data/questions.js",
           "operation": "modify",
-          "description": "Rewrite/expand the guide into a complete, step-by-step Bubblewrap/TWA workflow: choosing a stable Android package name, generating and managing signing keys, required Android build artifacts (AAB/APK), manifest/icon verification, Digital Asset Links setup + verification, and Play Console testing/release steps. Ensure the production origin is explicitly and consistently documented as https://sciquiztn-knowledgebyte.in and reference the existing custom-domain docs where relevant (e.g., frontend/CUSTOM_DOMAIN_DEPLOYMENT.md and frontend/public/.well-known/ic-domains)."
+          "description": "Repair any truncation/syntax issues so the file fully parses as a JavaScript module and ends with a complete `export default [...]` array matching the validator’s accepted shape."
         },
         {
-          "path": "frontend/README.md",
+          "path": "frontend/src/data/questions_class7.js",
           "operation": "modify",
-          "description": "Add a short documentation pointer that links developers to the updated TWA/Play Store guide and reiterates the production custom domain used for TWA hosting/verification (https://sciquiztn-knowledgebyte.in)."
+          "description": "Repair any truncation/syntax issues so the file fully parses as a JavaScript module and ends with a complete `export default [...]` array matching the validator’s accepted shape."
         },
         {
-          "path": "frontend/public/.well-known/assetlinks.json",
-          "operation": "create",
-          "description": "Add a Digital Asset Links file placeholder suitable for TWA verification, with clear inline comments/instructions for where to insert the Android package name and the signing certificate SHA-256 fingerprint produced during the Bubblewrap/keystore steps. This supports the documentation’s verification checklist."
-        },
-        {
-          "path": "frontend/public/manifest.webmanifest",
-          "operation": "create",
-          "description": "Add a minimal PWA manifest used by TWA packaging and referenced in the publishing checklist. Configure it for the production start URL and app identity, and use the existing generated icon at frontend/public/assets/generated/playstore-icon.dim_512x512.png for icons entries where applicable."
-        },
-        {
-          "path": "frontend/index.html",
+          "path": "frontend/src/data/questions_class8.js",
           "operation": "modify",
-          "description": "Wire the PWA manifest into the app by adding a manifest link tag that points to frontend/public/manifest.webmanifest, aligning with the Play Store/TWA publishing checklist and documentation steps."
+          "description": "Repair any truncation/syntax issues so the file fully parses as a JavaScript module and ends with a complete `export default [...]` array matching the validator’s accepted shape."
+        },
+        {
+          "path": "frontend/src/data/questions_class9.js",
+          "operation": "modify",
+          "description": "Repair any truncation/syntax issues so the file fully parses as a JavaScript module and ends with a complete `export default [...]` array matching the validator’s accepted shape."
+        },
+        {
+          "path": "frontend/src/data/questions_class10.js",
+          "operation": "modify",
+          "description": "Repair any truncation/syntax issues so the file fully parses as a JavaScript module and ends with a complete `export default [...]` array matching the validator’s accepted shape."
+        },
+        {
+          "path": "frontend/src/quiz/loadQuestions.ts",
+          "operation": "modify",
+          "description": "Ensure imports and level selection remain aligned with the repaired questions files (Class 6–10) so navigation/start-quiz does not crash at import time."
         }
       ]
     },
     {
-      "id": "REQ-2",
-      "summary": "Add an unauthenticated-accessible in-app “Authentication” help screen explaining that only Internet Identity is supported and Firebase login options are not available.",
+      "id": "REQ-5",
+      "summary": "Add a pre-build questions integrity check script that imports Class 6–10 datasets and runs existing `validateQuestions` logic, failing with clear English errors.",
       "acceptanceCriteria": [
-        "Unauthenticated users can access a short help section that explains the supported sign-in method (Internet Identity) in clear English.",
-        "The help section explicitly mentions that Firebase-based login providers (Google, Microsoft/Outlook, phone number OTP, email/password) are not supported in this build environment.",
-        "No references to Firebase login buttons/options are added to the login flow; the existing Internet Identity login remains functional."
+        "A single command/script can be run locally (and in CI/build environments) to validate all question files and fail fast with an actionable error indicating which class level failed.",
+        "If a questions file has the wrong shape (e.g., missing question/options/correct answer fields) the validator reports the first offending question with context (level + question number) using the existing validation behavior.",
+        "If a questions file cannot be imported due to syntax errors, the check fails and prints which file/level could not be loaded."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/screens/AuthenticationHelpScreen.tsx",
+          "path": "frontend/scripts/check-questions-integrity.ts",
           "operation": "create",
-          "description": "Create an “Authentication” help screen component that clearly explains: (1) the app supports Internet Identity only, (2) why third-party Firebase-based providers (Google, Microsoft/Outlook, phone OTP, email/password) are not available in this build environment, and (3) how to proceed with Internet Identity sign-in. Use shadcn-ui components (e.g., Card/Alert/Button/Separator) to keep styling consistent. Verify the component's usage instructions before implementing."
+          "description": "Create a Node-runnable integrity check that imports each dataset (questions.js, questions_class7.js, questions_class8.js, questions_class9.js, questions_class10.js), runs `validateQuestions` from frontend/src/quiz/validateQuestions.ts, prints a clear English error including the failing class level (and underlying validator message), and exits non-zero on any failure."
         },
         {
-          "path": "frontend/src/screens/LoginRequiredScreen.tsx",
+          "path": "frontend/README.md",
           "operation": "modify",
-          "description": "Add a secondary action (e.g., button/link) visible to unauthenticated users that opens the new Authentication help screen (without adding any Firebase login UI). Keep the existing Internet Identity login button unchanged and functional. Use shadcn-ui Button styling for the new action. Verify the component's usage instructions before implementing."
-        },
+          "description": "Document how to run the questions integrity check locally (single command) and how to interpret failures (syntax/import failure vs validation failure with class level + question index context)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Update the Android AAB release workflow to run the questions integrity check before Bubblewrap init/build and fail fast with a clear error.",
+      "acceptanceCriteria": [
+        "When the questions integrity check fails, build-release-aab.sh exits before `bubblewrap init`/`bubblewrap build` and prints an English error describing that question data must be fixed first.",
+        "When the questions integrity check passes, the script proceeds as before and can produce an AAB (assuming external prerequisites like Java/Android SDK/keystore are correct)."
+      ],
+      "file_operations": [
         {
-          "path": "frontend/src/App.tsx",
+          "path": "frontend/scripts/build-release-aab.sh",
           "operation": "modify",
-          "description": "Wire the new Authentication help screen into the app’s existing screen-state navigation so it is accessible even when the user is unauthenticated (e.g., add a new screen state and render AuthenticationHelpScreen when selected). Ensure the unauthenticated flow still defaults to the existing Internet Identity login prompt and that no Firebase options are introduced."
+          "description": "Run the questions integrity check (REQ-5) immediately after switching into the frontend directory and before any Bubblewrap initialization/build steps; if validation fails, print a clear English error instructing to fix question data first and exit non-zero."
         }
       ]
     }

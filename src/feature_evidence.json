@@ -2,14 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-the-google-play-store-publishing-documentation-to-provide-a-complete-step-by-step-workflow-for-shipping-the-existing-web-app-as-an-android-app-using-a-trusted-web-activity-bubblewrap-including-required-android-build-artifacts-package-name-signing-key-guidance-app-icon-manifest-checks-digital-asset-links-verification-and-play-console-release-steps-using-the-production-domain-referenced-in-the-repository-documentation",
-      "featureTitle": "Update the Google Play Store publishing documentation to provide a complete, step-by-step workflow for shipping the existing web app as an Android app using a Trusted Web Activity (Bubblewrap), including required Android build artifacts (package name, signing key guidance, app icon/manifest checks), Digital Asset Links verification, and Play Console release steps, using the production domain referenced in the repository documentation.",
+      "featureId": "feature-repair-any-malformed-or-truncated-quiz-question-data-modules-so-the-frontend-bundler-can-compile-successfully-specifically-verify-that-these-files-are-valid-javascript-modules-that-fully-parse-and-export-a-default-array-frontend-src-data-questions-js-frontend-src-data-questions-class7-js-frontend-src-data-questions-class8-js-frontend-src-data-questions-class9-js-frontend-src-data-questions-class10-js",
+      "featureTitle": "Repair any malformed or truncated quiz question data modules so the frontend bundler can compile successfully. Specifically verify that these files are valid JavaScript modules that fully parse and export a default array: frontend/src/data/questions.js, frontend/src/data/questions_class7.js, frontend/src/data/questions_class8.js, frontend/src/data/questions_class9.js, frontend/src/data/questions_class10.js.",
       "files": [
-        "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md",
-        "frontend/README.md",
-        "frontend/index.html",
-        "frontend/public/.well-known/assetlinks.json",
-        "frontend/public/manifest.webmanifest"
+        "frontend/src/data/questions_class9.js"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -19,17 +15,16 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-1"
+        "REQ-4"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-an-in-app-authentication-help-section-screen-that-clearly-explains-which-login-methods-are-supported-in-this-internet-computer-app-build-internet-identity-and-explicitly-states-that-firebase-authentication-options-google-microsoft-outlook-phone-otp-and-email-password-are-not-available-in-this-platform-environment",
-      "featureTitle": "Add an in-app “Authentication” help section/screen that clearly explains which login methods are supported in this Internet Computer app build (Internet Identity), and explicitly states that Firebase authentication options (Google, Microsoft/Outlook, phone OTP, and email/password) are not available in this platform environment.",
+      "featureId": "feature-add-a-pre-build-questions-integrity-check-that-imports-all-question-datasets-class-6-10-and-runs-the-existing-validation-logic-frontend-src-quiz-validatequestions-ts-to-produce-a-clear-english-error-message-and-a-non-zero-exit-code-if-any-dataset-is-invalid",
+      "featureTitle": "Add a pre-build questions integrity check that imports all question datasets (Class 6–10) and runs the existing validation logic (frontend/src/quiz/validateQuestions.ts) to produce a clear, English error message and a non-zero exit code if any dataset is invalid.",
       "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/screens/AuthenticationHelpScreen.tsx",
-        "frontend/src/screens/LoginRequiredScreen.tsx"
+        "frontend/README.md",
+        "frontend/scripts/check-questions-integrity.ts"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -39,7 +34,25 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-2"
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-the-android-release-aab-build-workflow-script-frontend-scripts-build-release-aab-sh-to-run-the-questions-integrity-check-before-initializing-bubblewrap-building-the-aab-and-stop-with-a-clear-error-if-validation-fails",
+      "featureTitle": "Update the Android release AAB build workflow script (frontend/scripts/build-release-aab.sh) to run the questions integrity check before initializing Bubblewrap / building the AAB, and stop with a clear error if validation fails.",
+      "files": [
+        "frontend/scripts/build-release-aab.sh"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
       ],
       "confidence": "high"
     }

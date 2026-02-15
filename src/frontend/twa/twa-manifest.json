@@ -1,0 +1,44 @@
+{
+  "packageId": "in.knowledgebyte.sciquiztn",
+  "host": "sciquiztn-knowledgebyte.in",
+  "name": "Science Quiz TN",
+  "launcherName": "SciQuiz TN",
+  "display": "standalone",
+  "themeColor": "#8b5cf6",
+  "navigationColor": "#ffffff",
+  "navigationColorDark": "#1a1a2e",
+  "navigationDividerColor": "#ffffff",
+  "navigationDividerColorDark": "#1a1a2e",
+  "backgroundColor": "#ffffff",
+  "enableNotifications": false,
+  "startUrl": "/",
+  "iconUrl": "https://sciquiztn-knowledgebyte.in/assets/generated/playstore-icon.dim_512x512.png",
+  "maskableIconUrl": "https://sciquiztn-knowledgebyte.in/assets/generated/playstore-icon.dim_512x512.png",
+  "monochromeIconUrl": "https://sciquiztn-knowledgebyte.in/assets/generated/playstore-icon.dim_512x512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "",
+    "alias": ""
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://sciquiztn-knowledgebyte.in/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {
+    "locationDelegation": {
+      "enabled": false
+    },
+    "playBilling": {
+      "enabled": false
+    }
+  },
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "minSdkVersion": 21,
+  "targetSdkVersion": 34
+}
