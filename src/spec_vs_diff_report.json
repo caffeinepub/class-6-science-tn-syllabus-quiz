@@ -1,72 +1,60 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-15T02:41:06.571Z",
-  "summary": "The diff primarily introduces extensive frontend quiz/UI changes and question/validation/scoring updates, plus partial documentation edits. It does not show changes that provision a new canister ID, update frontend actor/canister configuration to target that new backend canister, or preserve/verify the custom-domain verification file contents as required.",
+  "generatedAt": "2026-02-15T03:24:56.271Z",
+  "summary": "REQ-2 appears partially implemented via a new AuthenticationHelpScreen and navigation from the login screen, but the diff is truncated so explicit Firebase-not-supported messaging cannot be confirmed. REQ-1 documentation was added/updated and references the production domain, but the provided excerpt does not show an end-to-end Bubblewrap→signed AAB/APK→Play Console workflow or signing key/release steps. Several unrelated quiz/UI enhancements were also introduced.",
   "missing_requirements": [
     {
       "id": "REQ-1",
-      "requirement": "Provision and deploy the app to a new Internet Computer canister ID (do not reuse the previously deployed canister), so the live site is served from the new canister.",
-      "reason": "No evidence in the diff summary of any deployment/canister provisioning changes (e.g., dfx config, canister IDs, scripts) or any backend deployment updates; only frontend code/data and docs are shown as modified.",
+      "requirement": "Provide complete, step-by-step end-to-end workflow for shipping the web app as an Android app using TWA/Bubblewrap, including required Android build artifacts (package name, signing key guidance, icon/manifest checks), Digital Asset Links verification, and Play Console release steps.",
+      "reason": "The added guide is present and starts with prerequisites and 'Step 1: Install Bubblewrap', but the diff excerpt does not include (or at least does not provide evidence of) the full end-to-end steps such as generating signed AAB/APK, signing key/keystore guidance, and Play Console release workflow.",
       "evidence": [
-        "frontend-file-summaries.txt",
-        "project_state.json"
+        "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md"
       ]
     },
     {
       "id": "REQ-2",
-      "requirement": "Update the frontend canister/agent configuration used by createActorWithConfig so the UI talks to the newly deployed backend canister ID after redeploying.",
-      "reason": "The diff summary does not show any changes to frontend canister/agent configuration files (e.g., a config file or generated canister ID references). README mentions configuration in frontend/src/config.ts, but that file is not shown as modified and no actual canister ID update is evidenced.",
+      "requirement": "Authentication help section explicitly states Firebase authentication options (Google, Microsoft/Outlook, phone OTP, email/password) are not supported in this build environment.",
+      "reason": "An AuthenticationHelpScreen was added, but the file is truncated before showing whether it explicitly mentions that Firebase-based login providers are not supported.",
       "evidence": [
-        "frontend/README.md",
-        "frontend-file-summaries.txt"
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "requirement": "Ensure the custom-domain verification file and deployment instructions remain consistent with the new canister deployment (do not break existing custom domain setup for sciquiztn-knowledgebyte.in).",
-      "reason": "The diff includes a truncated edit to frontend/CUSTOM_DOMAIN_DEPLOYMENT.md, but provides no evidence that frontend/public/.well-known/ic-domains still contains exactly \"sciquiztn-knowledgebyte.in\". The key verification file itself is not shown as modified or verified in the diff summary.",
-      "evidence": [
-        "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md"
+        "frontend/src/screens/AuthenticationHelpScreen.tsx"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "Major redesign of quiz UI (\"modern gamified\" layout/screens/components), including timers, new progress/feedback flows, icons, animations, background music controls, and enhanced styling.",
-      "reason": "Not requested; explicitly outside the stated goals (no new quiz features or changing quiz content) and unrelated to redeploying to a new canister ID / updating canister configuration.",
+      "description": "Major 'modern gamified' UI redesign and feature additions across multiple quiz screens (countdown timer, new progress/feedback flows, animations, confirmation modal, etc.).",
+      "reason": "Not requested by REQ-1 or REQ-2 (scope was Play Store/TWA documentation + authentication help clarification).",
       "evidence": [
-        "frontend-file-summaries.txt"
+        "frontend-file-summaries.txt (summaries for Layout.tsx, StartScreen.tsx, QuestionScreen.tsx, ResultsScreen.tsx, ReviewScreen.tsx, ProgressIndicator.tsx, index.css)"
       ]
     },
     {
-      "description": "Changes to quiz logic/types/scoring to support unanswered questions (null selectedOption) and new two-phase answer flow (submit then advance).",
-      "reason": "Not requested and constitutes new/changed quiz behavior, which is a non-goal.",
+      "description": "Expanded quiz data/model changes and validation/scoring logic updates (null selectedOption, text-to-index answer normalization, multi-level question loading).",
+      "reason": "Not requested by REQ-1 or REQ-2.",
       "evidence": [
-        "frontend-file-summaries.txt"
+        "frontend-file-summaries.txt (summaries for frontend/src/quiz/types.ts, validateQuestions.ts, loadQuestions.ts, scoring.ts, data/questions.js)"
       ]
     },
     {
-      "description": "Runtime question validation that normalizes text-based answers to indices via flexible matching and adds detailed validation errors; plus loading questions across Class 6–10 datasets.",
-      "reason": "Not requested and changes quiz data handling/content pipeline rather than deployment/canister targeting.",
+      "description": "Added/updated project planning metadata suggesting Firebase authentication and username/password sign-up flows.",
+      "reason": "BuildRequest explicitly disallows implementing Firebase authentication options; while this is not implementation code, it introduces unrequested (and constraint-conflicting) feature planning content.",
       "evidence": [
-        "frontend-file-summaries.txt"
-      ]
-    },
-    {
-      "description": "Large update/replace of Class 6 questions dataset (180 questions) and multi-class level support documentation.",
-      "reason": "Not requested; changing quiz content is a non-goal.",
-      "evidence": [
-        "frontend-file-summaries.txt",
-        "frontend/README.md"
+        "project_state.json"
       ]
     }
   ],
-  "confidence": 0.74,
+  "confidence": 0.68,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md",
+    "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md",
     "frontend/README.md",
+    "frontend/index.html",
+    "frontend/public/.well-known/assetlinks.json",
+    "frontend/public/manifest.webmanifest",
+    "frontend/src/App.tsx",
+    "frontend/src/screens/AuthenticationHelpScreen.tsx",
+    "frontend/src/screens/LoginRequiredScreen.tsx",
     "project_state.json"
   ]
 }

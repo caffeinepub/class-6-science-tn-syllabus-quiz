@@ -1,57 +1,67 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Retry deployment with new canister ID: update frontend canister targeting and preserve custom domain setup",
+  "title": "TWA/Play Store publishing guide + in-app authentication help (Internet Identity only)",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Update frontend-facing deployment documentation to reflect deploying to a newly provisioned canister ID and serving the live site from it.",
+      "summary": "Expand the TWA/Bubblewrap Google Play publishing guide to an end-to-end workflow tied to the repository’s production custom domain, including artifact/signing guidance, Digital Asset Links verification, Play Console release steps, and a web/PWA asset checklist.",
       "acceptanceCriteria": [
-        "A new canister ID is created/selected for deployment (different from the previously used one).",
-        "The deployment completes successfully without the prior internal build/deploy error.",
-        "The app is reachable at the new canister’s icp0.io URL."
+        "The repository contains updated Play Store/TWA documentation that a developer can follow end-to-end to produce a signed Android App Bundle/APK for Play Console submission.",
+        "The documentation explicitly references the correct production web origin (custom domain) for TWA hosting and verification.",
+        "The documentation includes a checklist for required web/PWA assets (e.g., icons/manifest) and asset-links verification prerequisites."
       ],
       "file_operations": [
         {
+          "path": "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md",
+          "operation": "modify",
+          "description": "Rewrite/expand the guide into a complete, step-by-step Bubblewrap/TWA workflow: choosing a stable Android package name, generating and managing signing keys, required Android build artifacts (AAB/APK), manifest/icon verification, Digital Asset Links setup + verification, and Play Console testing/release steps. Ensure the production origin is explicitly and consistently documented as https://sciquiztn-knowledgebyte.in and reference the existing custom-domain docs where relevant (e.g., frontend/CUSTOM_DOMAIN_DEPLOYMENT.md and frontend/public/.well-known/ic-domains)."
+        },
+        {
           "path": "frontend/README.md",
           "operation": "modify",
-          "description": "Document the redeployment expectation that a NEW canister ID is used, and call out where the frontend reads the backend canister ID so it can be updated in lockstep after redeploy. Keep guidance capability-focused (no backend implementation details)."
+          "description": "Add a short documentation pointer that links developers to the updated TWA/Play Store guide and reiterates the production custom domain used for TWA hosting/verification (https://sciquiztn-knowledgebyte.in)."
+        },
+        {
+          "path": "frontend/public/.well-known/assetlinks.json",
+          "operation": "create",
+          "description": "Add a Digital Asset Links file placeholder suitable for TWA verification, with clear inline comments/instructions for where to insert the Android package name and the signing certificate SHA-256 fingerprint produced during the Bubblewrap/keystore steps. This supports the documentation’s verification checklist."
+        },
+        {
+          "path": "frontend/public/manifest.webmanifest",
+          "operation": "create",
+          "description": "Add a minimal PWA manifest used by TWA packaging and referenced in the publishing checklist. Configure it for the production start URL and app identity, and use the existing generated icon at frontend/public/assets/generated/playstore-icon.dim_512x512.png for icons entries where applicable."
+        },
+        {
+          "path": "frontend/index.html",
+          "operation": "modify",
+          "description": "Wire the PWA manifest into the app by adding a manifest link tag that points to frontend/public/manifest.webmanifest, aligning with the Play Store/TWA publishing checklist and documentation steps."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Update the frontend actor configuration so createActorWithConfig targets the newly deployed backend canister ID without touching immutable hooks.",
+      "summary": "Add an unauthenticated-accessible in-app “Authentication” help screen explaining that only Internet Identity is supported and Firebase login options are not available.",
       "acceptanceCriteria": [
-        "After deployment, the frontend loads without canister-resolution errors and can create the backend actor successfully.",
-        "Any generated canister-ID references used by the frontend are consistent with the newly deployed canister.",
-        "No changes are made to the immutable hook files (e.g., `frontend/src/hooks/useActor.ts`)."
+        "Unauthenticated users can access a short help section that explains the supported sign-in method (Internet Identity) in clear English.",
+        "The help section explicitly mentions that Firebase-based login providers (Google, Microsoft/Outlook, phone number OTP, email/password) are not supported in this build environment.",
+        "No references to Firebase login buttons/options are added to the login flow; the existing Internet Identity login remains functional."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/config.ts",
-          "operation": "modify",
-          "description": "Update the configuration used by createActorWithConfig to resolve the backend canister ID for the newly deployed canister (e.g., via the project’s generated canister ID source and/or build-time environment configuration) so actor creation succeeds after redeploy. Use the selected core-infrastructure component’s backend connection configuration capabilities where applicable. Verify the component's usage instructions before implementing."
-        }
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "summary": "Ensure custom domain verification and documentation remain correct and unchanged in behavior after switching to a new canister deployment.",
-      "acceptanceCriteria": [
-        "`frontend/public/.well-known/ic-domains` still contains `sciquiztn-knowledgebyte.in` exactly.",
-        "No regressions are introduced in custom domain configuration documentation (`frontend/CUSTOM_DOMAIN_DEPLOYMENT.md`)."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/public/.well-known/ic-domains",
-          "operation": "modify",
-          "description": "Verify the file remains a single-line domain verification file containing exactly `sciquiztn-knowledgebyte.in` (no additional domains; no formatting changes that would affect verification)."
+          "path": "frontend/src/screens/AuthenticationHelpScreen.tsx",
+          "operation": "create",
+          "description": "Create an “Authentication” help screen component that clearly explains: (1) the app supports Internet Identity only, (2) why third-party Firebase-based providers (Google, Microsoft/Outlook, phone OTP, email/password) are not available in this build environment, and (3) how to proceed with Internet Identity sign-in. Use shadcn-ui components (e.g., Card/Alert/Button/Separator) to keep styling consistent. Verify the component's usage instructions before implementing."
         },
         {
-          "path": "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md",
+          "path": "frontend/src/screens/LoginRequiredScreen.tsx",
           "operation": "modify",
-          "description": "Review and, if necessary, adjust wording to ensure instructions remain consistent when deploying to a new canister ID (while preserving the existing custom-domain setup and avoiding breaking changes to the documented flow)."
+          "description": "Add a secondary action (e.g., button/link) visible to unauthenticated users that opens the new Authentication help screen (without adding any Firebase login UI). Keep the existing Internet Identity login button unchanged and functional. Use shadcn-ui Button styling for the new action. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the new Authentication help screen into the app’s existing screen-state navigation so it is accessible even when the user is unauthenticated (e.g., add a new screen state and render AuthenticationHelpScreen when selected). Ensure the unauthenticated flow still defaults to the existing Internet Identity login prompt and that no Firebase options are introduced."
         }
       ]
     }

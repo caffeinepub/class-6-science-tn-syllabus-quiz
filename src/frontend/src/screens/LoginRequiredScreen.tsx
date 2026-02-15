@@ -2,9 +2,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
-import { Shield, AlertCircle, Loader2, Lock, Sparkles } from 'lucide-react';
+import { Shield, AlertCircle, Loader2, Lock, Sparkles, HelpCircle } from 'lucide-react';
 
-export default function LoginRequiredScreen() {
+interface LoginRequiredScreenProps {
+  onShowAuthHelp: () => void;
+}
+
+export default function LoginRequiredScreen({ onShowAuthHelp }: LoginRequiredScreenProps) {
   const { login, isLoggingIn, isLoginError } = useInternetIdentity();
 
   return (
@@ -63,6 +67,17 @@ export default function LoginRequiredScreen() {
                 Sign In with Internet Identity
               </>
             )}
+          </Button>
+
+          {/* Authentication Help Link */}
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-full text-base h-14 font-bold rounded-2xl border-2"
+            onClick={onShowAuthHelp}
+          >
+            <HelpCircle className="mr-2 h-5 w-5" />
+            Authentication Help
           </Button>
 
           {/* Info Section */}

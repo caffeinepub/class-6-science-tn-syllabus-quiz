@@ -1,11 +1,10 @@
 # Specification
 
 ## Summary
-**Goal:** Redeploy the app using a new Internet Computer canister ID and update the frontend configuration so it targets the newly deployed backend, while keeping any existing custom domain setup intact.
+**Goal:** Provide end-to-end guidance for publishing the existing web app to Google Play Store via Trusted Web Activity (Bubblewrap), and clarify that only Internet Identity authentication is supported in-app.
 
 **Planned changes:**
-- Provision/select a new canister ID (different from the previous deployment) and redeploy the app so it is served from the new canister.
-- Update frontend canister/agent configuration used by `createActorWithConfig` to reference the newly deployed backend canister ID (without modifying immutable hook/main files).
-- Verify custom domain setup remains consistent: keep `frontend/public/.well-known/ic-domains` containing `sciquiztn-knowledgebyte.in` exactly and avoid regressions in `frontend/CUSTOM_DOMAIN_DEPLOYMENT.md`.
+- Update repository documentation with a step-by-step TWA/Bubblewrap workflow for producing signed Android build artifacts (AAB/APK), including package name/signing key guidance, required manifest/icon checks, Digital Asset Links verification, and Play Console release steps using the documented production domain.
+- Add an in-app “Authentication” help section/screen explaining that Internet Identity is the supported sign-in method and that Firebase-based providers (Google, Microsoft/Outlook, phone OTP, email/password) are not available in this build environment.
 
-**User-visible outcome:** The app is reachable at a new canister `icp0.io` URL, and the UI loads and connects to the backend without canister-resolution errors, with custom domain configuration unchanged.
+**User-visible outcome:** Developers can follow the documentation to package and submit the app to the Play Console as a TWA, and users can view a clear in-app explanation of supported authentication (Internet Identity only).

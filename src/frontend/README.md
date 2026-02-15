@@ -14,6 +14,26 @@ A beautiful, interactive quiz application for Class 6, Class 7, Class 8, Class 9
 - 🎵 Background music with volume controls
 - 📱 Fully responsive design
 
+## Production Deployment
+
+**Live URL:** `https://sciquiztn-knowledgebyte.in`
+
+This app is deployed on the Internet Computer with a custom domain. For custom domain configuration details, see `frontend/CUSTOM_DOMAIN_DEPLOYMENT.md`.
+
+## Google Play Store Publishing
+
+Want to publish this app to the Google Play Store as an Android app? See the comprehensive guide:
+
+📱 **[Play Store TWA Publishing Guide](./PLAY_STORE_TWA_PUBLISHING_GUIDE.md)**
+
+This guide covers:
+- Packaging the web app as a Trusted Web Activity (TWA) using Bubblewrap
+- Digital Asset Links configuration for TWA verification
+- Complete Play Console submission workflow
+- Required assets and store listing preparation
+
+**Note:** The production domain `https://sciquiztn-knowledgebyte.in` is used for TWA hosting and verification.
+
 ## Deployment
 
 ### Backend Canister Configuration

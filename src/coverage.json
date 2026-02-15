@@ -1,45 +1,47 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-15T02:41:06.573Z",
+  "generatedAt": "2026-02-15T03:24:56.273Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
+    "total": 2,
     "implemented": 2,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Provision and deploy the app to a new Internet Computer canister ID (i.e., do not reuse the previously deployed canister), so the live site is served from the new canister.",
+        "summary": "Update the Google Play Store publishing documentation to provide a complete, step-by-step workflow for shipping the existing web app as an Android app using a Trusted Web Activity (Bubblewrap), including required Android build artifacts (package name, signing key guidance, app icon/manifest checks), Digital Asset Links verification, and Play Console release steps, using the production domain referenced in the repository documentation.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/README.md"
+          "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md",
+          "frontend/README.md",
+          "frontend/public/.well-known/assetlinks.json",
+          "frontend/public/manifest.webmanifest",
+          "frontend/index.html"
         ],
         "matchedFiles": [
-          "frontend/README.md"
+          "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md",
+          "frontend/README.md",
+          "frontend/public/.well-known/assetlinks.json",
+          "frontend/public/manifest.webmanifest",
+          "frontend/index.html"
         ]
       },
       {
         "id": "REQ-2",
-        "summary": "Update the frontend canister/agent configuration used by `createActorWithConfig` so the UI talks to the newly deployed backend canister ID after redeploying.",
-        "status": "missing",
-        "plannedFiles": [
-          "frontend/src/config.ts"
-        ],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-3",
-        "summary": "If a custom domain is configured for the project, ensure the custom-domain verification file and deployment instructions remain consistent with the new canister deployment (i.e., do not break existing custom domain setup for `sciquiztn-knowledgebyte.in`).",
+        "summary": "Add an in-app “Authentication” help section/screen that clearly explains which login methods are supported in this Internet Computer app build (Internet Identity), and explicitly states that Firebase authentication options (Google, Microsoft/Outlook, phone OTP, and email/password) are not available in this platform environment.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/public/.well-known/ic-domains",
-          "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md"
+          "frontend/src/screens/AuthenticationHelpScreen.tsx",
+          "frontend/src/screens/LoginRequiredScreen.tsx",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md"
+          "frontend/src/screens/AuthenticationHelpScreen.tsx",
+          "frontend/src/screens/LoginRequiredScreen.tsx",
+          "frontend/src/App.tsx"
         ]
       }
     ]
@@ -49,8 +51,14 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/CUSTOM_DOMAIN_DEPLOYMENT.md",
+    "frontend/PLAY_STORE_TWA_PUBLISHING_GUIDE.md",
     "frontend/README.md",
+    "frontend/index.html",
+    "frontend/public/.well-known/assetlinks.json",
+    "frontend/public/manifest.webmanifest",
+    "frontend/src/App.tsx",
+    "frontend/src/screens/AuthenticationHelpScreen.tsx",
+    "frontend/src/screens/LoginRequiredScreen.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

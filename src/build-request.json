@@ -1,77 +1,54 @@
 {
   "kind": "build_request",
-  "title": "Retry deployment using a new canister ID and update frontend to target it",
+  "title": "Google Play Store (TWA) publishing guidance + clarify supported authentication (Internet Identity)",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Provision and deploy the app to a new Internet Computer canister ID (i.e., do not reuse the previously deployed canister), so the live site is served from the new canister.",
-      "target": "unknown",
+      "text": "Update the Google Play Store publishing documentation to provide a complete, step-by-step workflow for shipping the existing web app as an Android app using a Trusted Web Activity (Bubblewrap), including required Android build artifacts (package name, signing key guidance, app icon/manifest checks), Digital Asset Links verification, and Play Console release steps, using the production domain referenced in the repository documentation.",
+      "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1",
-          "msg-2"
+          "msg-8"
         ],
         "quotes": [
-          "Can you use another canister ID?",
-          "Try"
+          "I want to publish it in Google play Store"
         ]
       },
       "acceptanceCriteria": [
-        "A new canister ID is created/selected for deployment (different from the previously used one).",
-        "The deployment completes successfully without the prior internal build/deploy error.",
-        "The app is reachable at the new canister’s icp0.io URL."
+        "The repository contains updated Play Store/TWA documentation that a developer can follow end-to-end to produce a signed Android App Bundle/APK for Play Console submission.",
+        "The documentation explicitly references the correct production web origin (custom domain) for TWA hosting and verification.",
+        "The documentation includes a checklist for required web/PWA assets (e.g., icons/manifest) and asset-links verification prerequisites."
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Update the frontend canister/agent configuration used by `createActorWithConfig` so the UI talks to the newly deployed backend canister ID after redeploying.",
+      "text": "Add an in-app “Authentication” help section/screen that clearly explains which login methods are supported in this Internet Computer app build (Internet Identity), and explicitly states that Firebase authentication options (Google, Microsoft/Outlook, phone OTP, and email/password) are not available in this platform environment.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-8"
         ],
         "quotes": [
-          "Can you use another canister ID?"
+          "with proper firebase login with Google, Outlook or via phone number options. Also if possible create sign up page for user id and password"
         ]
       },
       "acceptanceCriteria": [
-        "After deployment, the frontend loads without canister-resolution errors and can create the backend actor successfully.",
-        "Any generated canister-ID references used by the frontend are consistent with the newly deployed canister.",
-        "No changes are made to the immutable hook files (e.g., `frontend/src/hooks/useActor.ts`)."
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "text": "If a custom domain is configured for the project, ensure the custom-domain verification file and deployment instructions remain consistent with the new canister deployment (i.e., do not break existing custom domain setup for `sciquiztn-knowledgebyte.in`).",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-1",
-          "msg-2"
-        ],
-        "quotes": [
-          "Can you use another canister ID?",
-          "Try"
-        ]
-      },
-      "acceptanceCriteria": [
-        "`frontend/public/.well-known/ic-domains` still contains `sciquiztn-knowledgebyte.in` exactly.",
-        "No regressions are introduced in custom domain configuration documentation (`frontend/CUSTOM_DOMAIN_DEPLOYMENT.md`)."
+        "Unauthenticated users can access a short help section that explains the supported sign-in method (Internet Identity) in clear English.",
+        "The help section explicitly mentions that Firebase-based login providers (Google, Microsoft/Outlook, phone number OTP, email/password) are not supported in this build environment.",
+        "No references to Firebase login buttons/options are added to the login flow; the existing Internet Identity login remains functional."
       ]
     }
   ],
   "constraints": [
-    "Backend must remain a single Motoko actor in `backend/main.mo` (no additional backend services).",
-    "Do not edit files under `frontend/src/components/ui`.",
-    "Do not edit immutable paths: `frontend/src/hooks/useInternetIdentity.ts`, `frontend/src/hooks/useInternetIdentity.tsx`, `frontend/src/hooks/useActor.ts`, `frontend/src/main.tsx`.",
-    "Use English for any user-facing text."
+    "Do not modify files under frontend/src/hooks/useInternetIdentity.ts or frontend/src/hooks/useActor.ts (immutable paths).",
+    "Firebase Authentication integration (Google/Microsoft/phone OTP/email-password) must not be implemented because third-party authentication is not supported; only Internet Identity is supported.",
+    "Do not introduce additional backend services or databases; backend must remain a single Motoko actor in backend/main.mo."
   ],
   "nonGoals": [
-    "Adding new quiz features or changing quiz content.",
-    "Implementing third-party authentication providers (only Internet Identity is supported).",
-    "Adding real-time features (e.g., WebSockets/chat).",
-    "Play Store/TWA asset generation or publishing steps (unless required to keep deployment consistent)."
+    "Implementing Firebase SDK configuration, OAuth provider setup, or phone-number OTP flows.",
+    "Building a fully native Android app (the scope is TWA/Bubblewrap packaging of the existing web app).",
+    "Adding username/password credential storage or custom password authentication on the Motoko backend."
   ],
   "imageRequirements": {
     "required": [],

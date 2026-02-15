@@ -1,29 +1,24 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Deploy the app on Internet Computer with a live canister URL and optional custom domain; user requested redeploy using a different canister ID and to retry deployment after an internal build error.",
-  "architectural_notes": [
-    "Deployment target: Internet Computer canister (icp0.io URL).",
-    "Custom domain sciquiztn-knowledgebyte.in planned but pending DNS verification."
-  ],
-  "known_issues": [
-    "Build/deploy process encountered an internal LLM error during attempt to use another canister ID."
-  ],
-  "isFixRequest": true,
+  "summary": "Plan to publish the app to Google Play Store and add Firebase authentication (Google, Microsoft/Outlook, phone number) plus a username/password sign-up flow.",
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-provision-and-deploy-the-app-to-a-new-internet-computer-canister-id-i-e-do-not-reuse-the-previously-deployed-canister-so-the-live-site-is-served-from-the-new-canister",
-      "title": "Provision and deploy the app to a new Internet Computer canister ID (i.e., do not reuse the previously deployed canister), so the live site is served from the new canister.",
+      "id": "feature-update-the-google-play-store-publishing-documentation-to-provide-a-complete-step-by-step-workflow-for-shipping-the-existing-web-app-as-an-android-app-using-a-trusted-web-activity-bubblewrap-including-required-android-build-artifacts-package-name-signing-key-guidance-app-icon-manifest-checks-digital-asset-links-verification-and-play-console-release-steps-using-the-production-domain-referenced-in-the-repository-documentation",
+      "title": "Update the Google Play Store publishing documentation to provide a complete, step-by-step workflow for shipping the existing web app as an Android app using a Trusted Web Activity (Bubblewrap), including required Android build artifacts (package name, signing key guidance, app icon/manifest checks), Digital Asset Links verification, and Play Console release steps, using the production domain referenced in the repository documentation.",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-if-a-custom-domain-is-configured-for-the-project-ensure-the-custom-domain-verification-file-and-deployment-instructions-remain-consistent-with-the-new-canister-deployment-i-e-do-not-break-existing-custom-domain-setup-for-sciquiztn-knowledgebyte-in",
-      "title": "If a custom domain is configured for the project, ensure the custom-domain verification file and deployment instructions remain consistent with the new canister deployment (i.e., do not break existing custom domain setup for `sciquiztn-knowledgebyte.in`).",
+      "id": "feature-add-an-in-app-authentication-help-section-screen-that-clearly-explains-which-login-methods-are-supported-in-this-internet-computer-app-build-internet-identity-and-explicitly-states-that-firebase-authentication-options-google-microsoft-outlook-phone-otp-and-email-password-are-not-available-in-this-platform-environment",
+      "title": "Add an in-app “Authentication” help section/screen that clearly explains which login methods are supported in this Internet Computer app build (Internet Identity), and explicitly states that Firebase authentication options (Google, Microsoft/Outlook, phone OTP, and email/password) are not available in this platform environment.",
       "reqIds": [
-        "REQ-3"
+        "REQ-2"
       ],
       "version": 1
     }
@@ -31,26 +26,36 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Redeploy using a different Internet Computer canister ID (new canister)",
+      "summary": "Publish the app to the Google Play Store (Android release packaging, listing, and deployment workflow).",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-2",
-      "summary": "Retry the build/deploy after the internal LLM/build error",
+      "summary": "Integrate Firebase Authentication with Google sign-in.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Integrate Firebase Authentication with Microsoft (Outlook) sign-in.",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-4",
-      "summary": "Update the frontend canister/agent configuration used by `createActorWithConfig` so the UI talks to the newly deployed backend canister ID after redeploying.",
-      "reqIds": [
-        "REQ-2"
-      ],
+      "summary": "Integrate Firebase Authentication with phone number (OTP) sign-in.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Create a sign-up/login page supporting user ID (email/username) and password using Firebase Authentication.",
+      "reqIds": [],
       "status": "pending"
     }
   ],
-  "projectName": "sciquiztn-knowledgebyte",
+  "projectName": "Google Play Store (TWA) publishing guidance + clarify supported authentication (Internet Identity)",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

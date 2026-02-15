@@ -6,19 +6,20 @@ import QuestionScreen from './screens/QuestionScreen';
 import ResultsScreen from './screens/ResultsScreen';
 import ReviewScreen from './screens/ReviewScreen';
 import LoginRequiredScreen from './screens/LoginRequiredScreen';
+import AuthenticationHelpScreen from './screens/AuthenticationHelpScreen';
 import Layout from './components/Layout';
 import { Alert, AlertDescription, AlertTitle } from './components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { useInternetIdentity } from './hooks/useInternetIdentity';
 import type { QuizState, UserAnswer } from './quiz/types';
 
-type Screen = 'start' | 'question' | 'results' | 'review';
+type Screen = 'start' | 'question' | 'results' | 'review' | 'login' | 'auth-help';
 type QuizLevel = 'class6' | 'class7' | 'class8' | 'class9' | 'class10';
 
 function App() {
   const { identity, isInitializing } = useInternetIdentity();
   const [quizLevel, setQuizLevel] = useState<QuizLevel>('class6');
-  const [screen, setScreen] = useState<Screen>('start');
+  const [screen, setScreen] = useState<Screen>('login');
   const [quizState, setQuizState] = useState<QuizState | null>(null);
   const [pendingAnswer, setPendingAnswer] = useState<UserAnswer | null>(null);
 
@@ -112,6 +113,19 @@ function App() {
     setScreen('results');
   };
 
+  const handleShowAuthHelp = () => {
+    setScreen('auth-help');
+  };
+
+  const handleBackToLogin = () => {
+    setScreen('login');
+  };
+
+  // Auto-navigate to start screen when authenticated
+  if (isAuthenticated && screen === 'login') {
+    setScreen('start');
+  }
+
   if (isInitializing) {
     return (
       <Layout
@@ -140,7 +154,11 @@ function App() {
         quizTitle={quizTitle}
         quizSubtitle={quizSubtitle}
       >
-        <LoginRequiredScreen />
+        {screen === 'auth-help' ? (
+          <AuthenticationHelpScreen onBack={handleBackToLogin} />
+        ) : (
+          <LoginRequiredScreen onShowAuthHelp={handleShowAuthHelp} />
+        )}
       </Layout>
     );
   }
