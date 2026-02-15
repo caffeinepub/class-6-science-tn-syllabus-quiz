@@ -1,37 +1,108 @@
 {
   "kind": "build_request",
-  "title": "Publish app live on sciquiztn-knowledgebyte domain",
+  "title": "Connect custom domain sciquiztn-knowledgebyte.in and add Play Store (TWA) publish guide",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Publish the current released build live using the custom domain \"sciquiztn-knowledgebyte\" with no functional or UI changes as part of this request.",
-      "target": "unknown",
+      "text": "Update the Internet Computer custom-domain configuration to use the full domain `sciquiztn-knowledgebyte.in` so the app is accessible via that domain instead of the `icp0.io` canister subdomain (to mitigate “canister ID not resolved” / DNS issues on some ISPs).",
+      "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-go-live"
+          "msg-user-1"
         ],
         "quotes": [
-          "Go live"
+          "sciquiztn-knowledgebyte.in"
         ]
       },
       "acceptanceCriteria": [
-        "The live deployment uses the exact domain \"sciquiztn-knowledgebyte\" (letters/numbers/hyphens only).",
-        "The app loads successfully from the live URL without deployment errors.",
-        "No code changes are introduced as part of the publish-only action."
+        "`frontend/public/.well-known/ic-domains` contains `sciquiztn-knowledgebyte.in` (and does not rely on only the bare label without the TLD)",
+        "The custom domain documentation reflects `sciquiztn-knowledgebyte.in` consistently",
+        "After deployment, the app is reachable via `https://sciquiztn-knowledgebyte.in`"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Update `frontend/CUSTOM_DOMAIN_DEPLOYMENT.md` to provide clear, English, step-by-step instructions for connecting and verifying the custom domain `sciquiztn-knowledgebyte.in` (including where the domain value is configured in the repo).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-user-1"
+        ],
+        "quotes": [
+          "sciquiztn-knowledgebyte.in"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The document explicitly names `sciquiztn-knowledgebyte.in` as the target domain",
+        "The document points to the exact file path `frontend/public/.well-known/ic-domains` as the domain configuration source",
+        "Instructions include a verification checklist (e.g., expected URL, basic smoke-test steps)"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Add an English, step-by-step guide in the frontend documentation for publishing the existing web app to the Google Play Store using a Trusted Web Activity (Bubblewrap), tailored to the deployed URL and including required Play Console assets and checklist.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-user-2"
+        ],
+        "quotes": [
+          "Yes prepare"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A new documentation file exists under `frontend/` (or `frontend/docs/` if present in the repo) describing how to generate an Android App Bundle (.aab) via Bubblewrap/TWA for this app",
+        "The guide includes: prerequisites, commands/steps to build the TWA, where to set the start URL, how to produce the `.aab`, and Play Console submission checklist",
+        "The guide lists the required store listing assets (icon, feature graphic, screenshots) and links to the generated filenames from `frontend/public/assets/generated/`"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Add the required Play Store/TWA static images to `frontend/public/assets/generated/` and reference them from the Play Store (TWA) publishing guide.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-user-2"
+        ],
+        "quotes": [
+          "If I want to publish this app in Play Store what should I do?"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The generated image files exist at `frontend/public/assets/generated/` with the exact filenames specified in this build request",
+        "The Play Store/TWA guide references these exact filenames and their intended usage (without requiring any backend routes to serve them)"
       ]
     }
   ],
   "constraints": [
-    "Use English for any user-facing text.",
-    "Use the exact domain string: sciquiztn-knowledgebyte."
+    "Frontend paths listed as immutable in SYSTEM_CONTEXT must not be edited (compose components instead of modifying those sources).",
+    "Keep the backend single-actor architecture; do not introduce additional backend services.",
+    "Use English for any user-facing text or documentation added/updated.",
+    "Do not route generated images through the backend; serve them as static assets from `frontend/public/assets/generated/`."
   ],
   "nonGoals": [
-    "Adding or modifying quiz features, UI, backend APIs, or data files.",
-    "Changing authentication, question sets, styling, or assets."
+    "No new quiz gameplay features or UI redesign unrelated to the custom domain connection or Play Store packaging.",
+    "No third-party authentication providers (only Internet Identity remains).",
+    "No native Android feature development beyond wrapping the existing web app via TWA."
   ],
   "imageRequirements": {
-    "required": [],
+    "required": [
+      "Square app icon illustration: a clean, modern science quiz emblem with simple lab/atom motifs, high contrast, no text (playstore-icon.dim_512x512.png)",
+      "Wide feature graphic illustration: abstract science-themed banner with subtle icons (molecule, flask, lightning) and clean gradients, no text (playstore-feature-graphic.dim_1024x500.png)",
+      "Screenshot-style promo image: a realistic app UI mock of a quiz question screen on a generic phone frame, science-themed background accents, no store badges (playstore-screenshot-1.dim_1080x1920.png)",
+      "Screenshot-style promo image: a realistic app UI mock of results screen on a generic phone frame, celebratory science-themed accents, no text overlays (playstore-screenshot-2.dim_1080x1920.png)"
+    ],
     "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
   }
 }

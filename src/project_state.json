@@ -1,24 +1,65 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "New project",
+  "summary": "Science quiz web app deployed on Internet Computer (icp0.io). User wants to fix \"canister ID not resolved\" accessibility issues (notably on Airtel) by connecting a custom domain and also wants preparation guidance for publishing the app on Google Play Store (via TWA/Bubblewrap).",
   "architectural_notes": [
-    "Production domain names must be 5–50 characters and contain only letters, numbers, and hyphens (no underscores)."
+    "Mitigate icp0.io DNS/canister-resolution issues by mapping the app to a custom domain (e.g., for Airtel users).",
+    "Play Store distribution planned via Android Trusted Web Activity (TWA) wrapper around the existing web app."
   ],
-  "known_issues": [],
-  "isFixRequest": false,
+  "known_issues": [
+    "Some users (e.g., Airtel network) may fail to resolve/open icp0.io canister URLs (\"canister ID not resolved\" / DNS resolution issues)."
+  ],
+  "isFixRequest": true,
+  "imageRequirements": "## Required Images\n- Square app icon illustration: a clean, modern science quiz emblem with simple lab/atom motifs, high contrast, no text (playstore-icon.dim_512x512.png)\n- Wide feature graphic illustration: abstract science-themed banner with subtle icons (molecule, flask, lightning) and clean gradients, no text (playstore-feature-graphic.dim_1024x500.png)\n- Screenshot-style promo image: a realistic app UI mock of a quiz question screen on a generic phone frame, science-themed background accents, no store badges (playstore-screenshot-1.dim_1080x1920.png)\n- Screenshot-style promo image: a realistic app UI mock of results screen on a generic phone frame, celebratory science-themed accents, no text overlays (playstore-screenshot-2.dim_1080x1920.png)",
   "existing_features": [
     {
-      "id": "feature-publish-the-current-released-build-live-using-the-custom-domain-sciquiztn-knowledgebyte-with-no-functional-or-ui-changes-as-part-of-this-request",
-      "title": "Publish the current released build live using the custom domain \"sciquiztn-knowledgebyte\" with no functional or UI changes as part of this request.",
+      "id": "feature-update-the-internet-computer-custom-domain-configuration-to-use-the-full-domain-sciquiztn-knowledgebyte-in-so-the-app-is-accessible-via-that-domain-instead-of-the-icp0-io-canister-subdomain-to-mitigate-canister-id-not-resolved-dns-issues-on-some-isps",
+      "title": "Update the Internet Computer custom-domain configuration to use the full domain `sciquiztn-knowledgebyte.in` so the app is accessible via that domain instead of the `icp0.io` canister subdomain (to mitigate “canister ID not resolved” / DNS issues on some ISPs).",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-update-frontend-custom-domain-deployment-md-to-provide-clear-english-step-by-step-instructions-for-connecting-and-verifying-the-custom-domain-sciquiztn-knowledgebyte-in-including-where-the-domain-value-is-configured-in-the-repo",
+      "title": "Update `frontend/CUSTOM_DOMAIN_DEPLOYMENT.md` to provide clear, English, step-by-step instructions for connecting and verifying the custom domain `sciquiztn-knowledgebyte.in` (including where the domain value is configured in the repo).",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-english-step-by-step-guide-in-the-frontend-documentation-for-publishing-the-existing-web-app-to-the-google-play-store-using-a-trusted-web-activity-bubblewrap-tailored-to-the-deployed-url-and-including-required-play-console-assets-and-checklist",
+      "title": "Add an English, step-by-step guide in the frontend documentation for publishing the existing web app to the Google Play Store using a Trusted Web Activity (Bubblewrap), tailored to the deployed URL and including required Play Console assets and checklist.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-the-required-play-store-twa-static-images-to-frontend-public-assets-generated-and-reference-them-from-the-play-store-twa-publishing-guide",
+      "title": "Add the required Play Store/TWA static images to `frontend/public/assets/generated/` and reference them from the Play Store (TWA) publishing guide.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
     }
   ],
-  "new_feature_requests": [],
-  "projectName": "Publish app live on sciquiztn-knowledgebyte domain",
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Connect and configure custom domain sciquiztn-knowledgebyte.in for the deployed app to avoid icp0.io DNS/canister resolution issues",
+      "reqIds": [],
+      "status": "in_progress"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Prepare step-by-step instructions/files to publish the web app to Google Play Store using Trusted Web Activity (Bubblewrap)",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "projectName": "Connect custom domain sciquiztn-knowledgebyte.in and add Play Store (TWA) publish guide",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }
